@@ -1,0 +1,385 @@
+.contenedorPrincipal{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.cajaPrincipal{
+  width: 95%;
+  height: 90%;
+  display: flex;
+  border-radius: 5px;
+  gap: 2px;
+}
+
+.cajaChats{
+  width: 25%;
+  height: 100%;
+  display: flex;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.cajaMensajes{
+  width: 75%;
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.buscarMensajes{
+  border-bottom: 1px solid black;
+  padding: 15px;
+}
+
+.buscarMensajes input{
+  outline: none;
+  background-color: transparent;
+}
+
+.chats{
+  width: 100%;
+  height: 80px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+}
+
+.chat-with-border {
+  border-bottom: 1px solid #ccc; /* Color de borde gris claro */
+}
+
+
+.imagenChat{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+
+}
+
+.imagenChat img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+.tituloMensajes{
+  width: 100%;
+  height: 70px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+}
+
+.imagenMensaje{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.imagenMensaje img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+
+}
+
+
+.chats:hover {
+  background-color: #f8f8f8;
+}
+
+.conteinerMensajes {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 636px;
+  overflow: auto;
+
+}
+
+.mensaje {
+  background-color: #e6f7ff; /* Color de fondo */
+  padding: 10px;
+  height: auto;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+  word-wrap: break-word; /* Asegura que el texto no se desborde */
+  width: 50%; /* Máximo ancho del mensaje */
+  margin-bottom: 8px; /* Espacio entre mensajes */
+  margin-right: auto; /* Alineación por defecto a la izquierda */
+}
+
+.mensaje-propio {
+  margin-left: auto; /* Asegura alineación derecha */
+  margin-right: 0;
+  width: 50%;
+  background-color: #96ce00;
+}
+
+.mensaje-propio p{
+  color: white;
+}
+
+.mensaje-propio .fechaMensaje{
+  color: white;
+}
+
+.mensaje p {
+  margin: 0 0 10px 0; /* Sin margen inferior para separar del elemento de fecha */
+}
+
+.fechaMensaje {
+  text-align: right; /* Alinea la fecha a la derecha */
+  font-size: 0.85em; /* Tamaño de fuente más pequeño para la fecha */
+  color: #666;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+}
+
+.enviarMensaje{
+  width: 99%;
+}
+
+.envioMensaje {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f8f8f8;
+}
+
+.mensajeInput {
+  flex-grow: 1; /* Permite que el input ocupe el espacio restante */
+  margin-right: 10px; /* Margen entre el input y el botón */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.botonEnviar {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.botonEnviar:hover {
+  background-color: #0056b3;
+}
+
+.chat-activo {
+  padding: 5px;
+  border-left: 5px solid #96ce00; /* Un borde más oscuro para mayor contraste */
+}
+
+.negrita .tituloChat{
+
+  font-weight: bold;
+}
+
+.chatNoCogido{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tituloChatVacio{
+  color: #0056b3;
+}
+
+
+/* Estilo para ocultar el botón dropdown y mostrarlo solo en hover */
+.mensaje {
+  position: relative; /* Necesario para el posicionamiento absoluto del dropdown */
+}
+
+.dropdown {
+  position: absolute;
+  top: 0;
+  right: 0; /* Alinea el dropdown a la derecha */
+  display: none; /* Oculta el dropdown por defecto */
+}
+
+.mensaje:hover .dropdown {
+  display: block; /* Muestra el dropdown al hacer hover */
+}
+
+
+
+
+/* Estilos para el botón dropdown */
+.dropdown button {
+  background: none;  /* Elimina cualquier fondo */
+  border: none;      /* Elimina los bordes */
+  color: white;      /* Establece el color del icono a blanco */
+  padding: 0;        /* Elimina el padding si es necesario */
+}
+
+.dropdown ul li button{
+  color: red;
+}
+
+.dropdown button:focus {
+  box-shadow: none;  /* Elimina el contorno o sombra cuando el botón está enfocado */
+}
+
+.bi-three-dots-vertical {
+  font-size: 20px;  /* Ajusta el tamaño del icono según necesites */
+}
+
+.dropdown-menu{
+  padding: 5px;
+}
+
+.emojiPicker {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.botonEmoji {
+  position: absolute;
+  right: 49px; /* Ajusta la posición derecha según necesites */
+  cursor: pointer;
+  font-size: 20px; /* Ajusta el tamaño según necesites */
+  color: #555; /* Cambia el color si es necesario */
+}
+
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.mensajeInput {
+  flex-grow: 1;
+}
+
+.botonEmoji {
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+  right: 70px;
+  transition: 0.2s ease-in-out;
+}
+.botoncard{
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+  right: 60px;
+  transition: 0.2s ease-in-out;
+}
+
+.botoncard:hover{
+  color: #007bff;
+}
+
+.botonEmoji:hover{
+  color: orange;
+}
+
+.emojiPicker {
+  position: absolute;
+  bottom: 111%;
+  right: -90px;
+  width: 30%;
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 5px;
+}
+
+.emojiPicker::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+.emojiPicker::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* Color del scrollbar */
+  border-radius: 4px; /* Radio de borde del thumb */
+}
+
+.emoji {
+  flex: 0 0 auto;
+  margin: 5px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.yellow{
+  color: orange;
+}
+
+.previsualizarImage{
+  position: absolute;
+  top: -51px;
+  left: 12px;
+  z-index: 10;
+  width: 202px;
+  border-radius: 5px;
+  border-bottom: none;
+  height: 60px;
+  background-color: lightblue;
+}
+
+.previsualizarImage img{
+  width: 60px;
+  height: 44px;
+  margin-top: 7px;
+  margin-left: 3px;
+}
+
+.bi-x-circle-fill {
+  cursor: pointer;
+  color: red;  /* O el color que prefieras para el ícono de cerrar */
+}
+
+
+.imagenMensajeContenido{
+  width: 200px;
+  height: 200px;
+}
+
+.imagenMensajeContenido img{
+  width: 100%;
+  height: 100%;
+}
+

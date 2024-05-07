@@ -1,0 +1,27 @@
+.description-acercaDe {
+  display: flex;
+  justify-content: flex-start;
+  overflow-wrap: break-word;
+  align-items: end;
+}
+
+.description-acercaDe span {
+  width: 100%;
+  display: inline-flex; /* Utiliza inline-flex para mantener los elementos en línea */
+  align-items: end; /* Alinea el texto y el botón verticalmente */
+
+}
+
+
+.description-acercaDe .toggle-text {
+  margin-top: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+  color: #96ce00;
+  font-size: 1em; /* Ajusta el tamaño de la fuente según sea necesario */
+  width: 100px;
+}
+
+
+
+

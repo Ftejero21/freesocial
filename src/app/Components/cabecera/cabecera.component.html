@@ -1,0 +1,77 @@
+ <header class="header-container">
+  <div class="header-container">
+    <div class="header-content">
+      <div class="d-flex align-items-center gap-0" routerLink="/home">
+        <img src="assets/icono FreeSocial PNG.png" alt="Icono FreeSocial">
+        <h1>FreeSocial</h1>
+      </div>
+      <div class="search-container" *ngIf="shouldShowLogoutIcon()">
+        <input type="search"  [(ngModel)]="nombreBusqueda" (keyup)="buscarUsuario(nombreBusqueda)" placeholder="Buscar Contactos">
+        <div *ngIf="resultadosBusqueda.length > 0">
+          <div *ngFor="let resultado of resultadosBusqueda; let ultimo = last; trackBy: trackByFn" class="mt-2" [class.mb-10]="ultimo">
+            <div class="texto-conteiner w-100 d-flex gap-2 align-items-center justify-content-between" (click)="irAPerfil(resultado.id)">
+              <em class="bi bi-search"></em>
+              <h1 class="text-capitalize">{{ resultado.datosPersonales.nombre }} {{ resultado.datosPersonales.apellidos }}</h1>
+              <img *ngIf="resultado?.imagenPerfil" [src]="'data:image/jpeg;base64,' + resultado.imagenPerfil" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex gap-2" *ngIf="shouldShowLogoutIcon()">
+
+      <div class="d-flex flex-column align-items-center mensajeria" routerLink="/mensajeria">
+        <div class="icon-container d-flex position-relative">
+          <i class="bi bi-chat-dots fs-5"></i>
+          <span *ngIf="mensajeNewCount > 0 && !isInMensajeria" class="badge bg-danger badge-position">{{ mensajeNewCount }}</span>
+      </div>
+        <span class="text-sm">Mensajes</span>
+      </div>
+      <div>
+        <button class="btn btn-danger">Cerrar</button>
+      </div>
+      <div>
+        <button class="btn btn-danger">Cerrar</button>
+      </div>
+    </div>
+
+
+    <div class="d-flex align-items-center" *ngIf="shouldShowLogoutIcon()">
+        <div class="img">
+          <img *ngIf="imagenPerfil" [src]="'data:image/jpeg;base64,' + imagenPerfil" alt="">
+        </div>
+        <div class="">
+          <p class="dropdown-toggle mb-0 fs-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Yo
+          </p>
+          <div class="dropdown-menu mt-3">
+          <div class="sesion1">
+              <div class="titulo w-75 d-flex align-items-start justify-content-center">
+                <div class="img">
+                  <img *ngIf="usuario?.imagenPerfil" [src]="'data:image/jpeg;base64,' + usuario?.imagenPerfil" alt="">
+                </div>
+                <div class="informacion d-flex flex-column gap-1">
+                  <p *ngIf="usuario?.datosPersonales" class="fw-bold text-capitalize mb-0" >{{usuario?.datosPersonales?.nombre}} {{usuario?.datosPersonales?.apellidos}}</p>
+                  <p *ngIf="usuario?.titular" class="mb-0">{{usuario?.titular}}</p>
+                </div>
+              </div>
+              <div class="botonPerfil w-100 d-flex justify-content-center mt-3">
+                <button (click)="irAPerfil(null)">Ver Perfil</button>
+              </div>
+          </div>
+            <div class="logOut mt-3 p-2 pointer-event">
+              <p class="mb-0 cerrarSesion"  (click)="onLogout()">Cerrar Sesión</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+
+</header>
+
+
+
+
+
+

@@ -1,0 +1,256 @@
+.header-container {
+  position: fixed; /* Fija la cabecera en la parte superior */
+  top: 0;          /* Alinea la cabecera en la parte superior de la ventana */
+  width: 100%;     /* Asegura que la cabecera se extienda a lo ancho de la pantalla */
+  height: 7vh;     /* Altura que ya estaba definida */
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  background-color: #003344; /* Color de fondo azul oscuro */
+  color: white;
+  z-index: 10000;   /* Asegura que la cabecera se mantenga sobre otros contenidos */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+}
+
+.img img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border: 1px solid #96ce00;
+}
+
+.sesion1{
+  padding-bottom: 15px;
+  border-bottom: 1px solid black;
+}
+
+.botonPerfil button{
+  width: 90%;
+  border: 1px solid #96ce00;
+  border-radius: 15px;
+  background-color: transparent;
+
+}
+
+.dropdown-menu{
+  width: 320px !important;
+}
+
+.header-content{
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+  justify-content: center;
+  gap: 25px;
+}
+
+.header-content > div{
+  cursor: pointer;
+}
+
+.header-container{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn-group button{
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 10px;
+}
+
+.button{
+  cursor: pointer;
+  font-size: 25px;
+  transition: 0.3s ease-in-out;
+}
+
+
+
+.header-container img {
+  width: 50px; /* Puedes ajustar según el tamaño del icono */
+  margin-right: 15px; /* Espacio entre el icono y el texto */
+}
+
+.header-container h1 {
+  font-size: 30px;
+  margin: 0; /* Eliminar margen por defecto */
+}
+
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: RGB(29, 185, 84);
+}
+
+.titulo{
+  margin-left: 10px;
+}
+
+/* Estilos para el contenedor de búsqueda y resultados */
+.header-content .search-container {
+  position: relative; /* Establece un contexto de posicionamiento para los resultados */
+}
+
+
+.header-content .search-container > div {
+  position: absolute; /* Posicionamiento absoluto respecto a su contenedor relativo */
+  top: 100%; /* Coloca el div justo debajo del input de búsqueda */
+  left: 0; /* Alinea el div al inicio del contenedor */
+  z-index: 1000; /* Asegura que se muestre sobre otros elementos */
+  width: 300px; /* Ancho fijo del div de resultados */
+  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido excede la altura máxima */
+  background-color: white; /* Fondo blanco para los resultados */
+  border: 1px solid #ccc; /* Borde sutil para delimitar el área de resultados */
+  border-radius: 4px; /* Bordes redondeados para un aspecto más suave */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad */
+}
+
+/* Estilos para cada resultado dentro del div */
+.header-content .search-container > div h1 {
+  margin: 0; /* Remueve el margen por defecto de los h1 */
+  padding: 8px 12px; /* Espaciado interno para cada resultado */
+  font-size: 16px; /* Tamaño de fuente adecuado para los resultados */
+  color: black; /* Color del texto */
+}
+
+.texto-conteiner{
+  cursor: pointer;
+}
+
+.texto-conteiner em{
+  margin-left: 10px;
+  color: black;
+}
+
+.search-container input{
+  width: 200px;
+}
+
+.texto-conteiner:hover {
+  background-color: #f2f2f2; /* Cambia el color según tus preferencias */
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.texto-conteiner img {
+  border-radius: 50%; /* Hace la imagen completamente redonda */
+  width: 40px; /* Ancho fijo para la imagen */
+  height: 40px; /* Altura fija para mantener la proporción y forma circular */
+  object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+}
+
+/* Último elemento sin borde inferior para limpiar visualmente */
+.header-content .search-container > div h1:last-child {
+  border-bottom: none;
+}
+
+/* plus sign */
+.sign {
+  width: 100%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 18px;
+}
+
+.sign svg path {
+  fill: black;
+}
+/* text */
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: black;
+  font-size: 15px;
+  font-weight: 600;
+  transition-duration: 0.3s;
+}
+/* hover effect on button width */
+.Btn:hover {
+  width: 125px;
+  border-radius: 40px;
+  transition-duration: 0.3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: 0.3s;
+  padding-left: 20px;
+}
+/* hover effect button's text */
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btn:active {
+  transform: translate(2px, 2px);
+}
+
+.cerrarSesion:hover{
+  cursor: pointer;
+  text-underline-offset: 4px;
+  text-decoration: underline 2px solid #96ce00;
+}
+
+.mensajeria{
+  cursor: pointer;
+}
+
+.icon-container {
+  position: relative; /* Permite el posicionamiento absoluto de los hijos */
+  width: fit-content; /* Ajusta el tamaño al contenido, en este caso, el ícono */
+}
+
+.badge-position {
+  position: absolute; /* Posicionamiento absoluto dentro del contenedor relativo */
+  top: 25%; /* Arriba del contenedor */
+  right: 0; /* Derecha del contenedor */
+  transform: translate(50%, -50%); /* Ajusta la posición para que sobresalga del ícono */
+  font-size: 0.6em; /* Tamaño de fuente más pequeño para el badge */
+}
+
+
+/* Estilo responsive para tablets */
+@media only screen and (max-width: 768px) {
+  .header-container h1 {
+    font-size: 24px;
+  }
+  .header-container img {
+    width: 40px;
+  }
+}
+
+/* Estilo responsive para móviles */
+@media only screen and (max-width: 480px) {
+  .header-container h1 {
+    font-size: 20px;
+  }
+  .header-container img {
+    width: 30px;
+  }
+}

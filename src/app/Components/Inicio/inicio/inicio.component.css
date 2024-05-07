@@ -1,0 +1,644 @@
+/* Contenedor Principal */
+.main-container {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center;     /* Centra el contenido verticalmente */
+  flex-wrap: wrap; /* Un tono de azul ligeramente diferente, pero puedes ajustarlo según prefieras */
+}
+
+.login-container{
+  width: 50%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 45px;
+  z-index: 100;
+
+}
+
+
+
+.conteiner-provincias{
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.lista-provincias {
+  background-color: #f2f2f2; /* Fondo gris claro */
+  color: #8fbc8f; /* Letras en verde claro */
+  width: 100%; /* Ocupa el ancho completo del contenedor padre */
+  z-index: 1000; /* Asegúrate de que la lista esté sobre otros elementos */
+  padding: 5px;
+  cursor: pointer;
+}
+
+
+
+
+.lista-provincias p:hover {
+  background-color: #e6e6e6; /* Color de fondo al pasar el mouse */
+}
+
+.login-container h1{
+  color: #003344;
+  font-size: 80px;
+  font-weight: 500;
+  margin-left: 10px;
+  text-align: center;
+}
+
+
+
+.imagen-container{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+
+  height: 90%;
+}
+
+.modal-content {
+  border-radius: 10px; /* Bordes redondeados para el modal */
+}
+
+.modal-title {
+  font-weight: bold; /* Título en negrita */
+}
+
+/* Asegurarse de que el input y el párrafo se ajusten al ancho del modal */
+.modal-body .form-control,
+.modal-body p {
+    max-width: 100%; /* Asegura que no exceda el ancho del contenedor */
+    box-sizing: border-box; /* Asegura que el padding y border estén incluidos en el ancho */
+}
+
+/* Si deseas darle un poco más de margen al input y al párrafo */
+.modal-body .form-control {
+    margin-bottom: 10px;
+}
+
+.form-control {
+  border: 1px solid #e1e1e1;
+  border-radius: 5px; /* Bordes redondeados para el input */
+}
+
+.btn-primary {
+  background-color: #007BFF; /* Color de fondo del botón 'Siguiente' */
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #E1E1E1; /* Color de fondo del botón 'Volver' */
+  border: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 700px; /* Aumenté el ancho del formulario */
+}
+
+input[type="text"], input[type="password"] {
+  padding: 15px; /* Aumenté el padding */
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Aumenté el border-radius */
+  font-size: 16px; /* Aumenté el tamaño de la fuente */
+}
+
+.input-container {
+  position: relative;
+  width: 100%; /* O el ancho que prefieras */
+  margin-bottom: 10px; /* Espaciado entre los inputs */
+}
+
+.password-input {
+  padding-right: 70px; /* Espacio reservado para el texto 'Mostrar' */
+}
+
+.alert-top {
+  position: absolute; /* Cambia 'fixed' a 'absolute' */
+  top: 10px;          /* Distancia desde el borde superior del main-container */
+  right: 10px;        /* Distancia desde el borde derecho del main-container */
+  z-index: 9999;
+  width: auto;        /* Cambia '100%' a 'auto' */
+  margin-top: 0;
+  color: black;
+  font-weight: bold;
+}
+
+.actions-container {
+  display: flex;
+  align-items: center;  /* Alinear elementos verticalmente al centro */
+  justify-content: space-between; /* Espacio máximo entre los elementos */
+  width: 100%; /* Ocupar todo el ancho disponible */
+  gap: 20px; /* Espacio entre el checkbox y el enlace */
+}
+
+
+
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+
+.show-password {
+  position: absolute;
+  right: 10px; /* Espacio desde el borde derecho del input */
+  top: 65%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #003344;
+  font-weight: bold;
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%;
+  box-sizing: border-box; /* Incluye el padding en el ancho total del input */
+}
+
+.forgot-password {
+  align-self: flex-start;
+  text-decoration: none;
+  color: #0a66c2;
+  font-size: 16px; /* Aumenté el tamaño de la fuente */
+  font-weight: 600;
+}
+
+.login-btn, .register-btn {
+  padding: 15px 25px; /* Aumenté el padding */
+  border: none;
+  border-radius: 30px; /* Aumenté el border-radius */
+  font-size: 18px; /* Aumenté el tamaño de la fuente */
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+.register-btn{
+  background-color: #003344;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Aumenté el gap */
+}
+
+.separator hr {
+  flex: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .login-container {
+    width: 80%;
+  }
+
+  .datos-personales{
+    width: 300px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+
+  }
+
+  img{
+    width: 100%;
+  }
+
+  .login-container h1 {
+    font-size: 40px;
+  }
+
+  .imagen-container {
+    width: 100%;
+    order: 1; /* Coloca la imagen encima del formulario */
+  }
+
+  form {
+    width: 80%; /* Reducir el ancho del formulario */
+  }
+
+  input[type="text"], input[type="password"] {
+    font-size: 14px; /* Reducir el tamaño de la fuente del input */
+  }
+
+  .forgot-password {
+    font-size: 14px;
+  }
+
+  .login-btn, .register-btn {
+    font-size: 16px;
+  }
+}
+
+/* Estilo responsive para móviles */
+@media only screen and (max-width: 480px) {
+  .main-container {
+    padding: 10px; /* Añade un pequeño padding para evitar que el contenido toque los bordes */
+  }
+  .login-titulo{
+    text-align: center;
+  }
+
+  .login-container {
+    width: 100%;
+  }
+
+  img{
+    width: 100%;
+  }
+
+  .login-container h1 {
+    font-size: 32px; /* Reducir aún más el tamaño del título */
+  }
+
+  form {
+    width: 100%; /* Ampliar el formulario al 100% del ancho */
+  }
+
+  .show-password {
+    font-size: 12px;
+  }
+
+  input[type="text"], input[type="password"] {
+    font-size: 12px; /* Reducir el tamaño de la fuente del input aún más */
+  }
+
+  .login-btn, .register-btn {
+    font-size: 14px;
+  }
+
+  .imagen-container img {
+    width: 100%; /* Reducir el tamaño de la imagen al 70% de su tamaño original */
+    max-width: 400px; /* Establecer un ancho máximo para evitar que la imagen sea demasiado grande */
+}
+
+
+}
+
+.registro-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: white;
+  padding-bottom: 150px; /* Asegúrate de que este valor sea igual a la altura del .wave-container */
+  box-sizing: border-box;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+.wave-container {
+  position: absolute;
+  width: 100%;
+  bottom: 0; /* Se posiciona en la parte inferior del padre */
+  left: 0;
+}
+
+.parallax > use {
+  animation: moveWave 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite, swell 12s ease -1.25s infinite;
+  transform-origin: 50% 48%;
+}
+
+@keyframes moveWave {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+@keyframes swell {
+  0%, 100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+
+.contenido-container {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bienvenida-info{
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 25px;
+}
+
+
+.busqueda-opciones{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.busqueda-opciones h3{
+  font-size: 55px;
+}
+
+
+
+.options label {
+  display: block; /* Asegura que cada label ocupe su propia línea */
+  margin-bottom: 0.5em; /* Espaciado entre las opciones */
+  user-select: none; /* Evita que el texto sea seleccionable */
+  font-size: 20px;
+}
+
+.options input[type="radio"] {
+  margin-right: 10px; /* Espacio entre el radio y el texto */
+  vertical-align: middle; /* Alinea el radio con el texto verticalmente */
+}
+
+.bienvenida-info h2 {
+  color: #87ceeb; /* Color azul cielo */
+  margin-bottom: 0.5em;
+}
+
+.bienvenida-info p{
+  font-size: 25px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 1em; /* Ajusta según sea necesario */
+}
+
+.form-group {
+  flex: 0 0 48%; /* Ajusta el tamaño de los form-group al 48% para que entren dos en una fila */
+  box-sizing: border-box;
+}
+
+/* Puedes agregar media queries para hacer que cada form-group ocupe el 100% del ancho en pantallas más pequeñas */
+@media (max-width: 768px) {
+  .form-group {
+    flex: 0 0 100%;
+  }
+
+  .contenido-container{
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .login-container{
+    width: 100%;
+    text-align: left;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+  }
+  img{
+    width: 100%;
+  }
+}
+
+@media (max-width: 820px){
+  .contenido-container{
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 550px){
+  .contenido-container .bienvenida-info p{
+    font-size: 15px
+  }
+
+  .busqueda-opciones h3{
+    font-size: 25px;
+  }
+}
+
+
+.arrow {
+  position: absolute; /* Posición absoluta en relación a su contenedor más cercano que tenga posición relativa o absoluta */
+  top: 10px; /* Ajusta la cantidad de píxeles según necesites */
+  left: 10px; /* Ajusta la cantidad de píxeles según necesites */
+  z-index: 1000; /* Asegura que estará sobre los demás elementos */
+}
+.arrow em{
+  font-size: 50px;
+  transition: 0.3s ease-in-out;
+}
+
+.contenido-container em{
+  cursor: pointer;
+  color: rgba(135, 206, 235, 0.7);
+  font-size: 30px;
+}
+
+.error-border {
+  border: 1px solid red !important;
+}
+
+.error-message{
+  text-align: center;
+  font-weight: bold;
+  color: red;
+}
+
+.datos-personales {
+
+  padding: 30px;
+  margin-top: 20px; /* Espacio arriba para separar del botón */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  z-index: 1000;
+}
+
+.datos-personales h4 {
+  margin-bottom: 15px; /* Espacio debajo del título */
+}
+
+.form-group {
+  margin-bottom: 10px; /* Espacio entre campos del formulario */
+}
+
+.form-group label {
+  display: block; /* Hace que el input aparezca debajo del label */
+}
+
+.form-group input {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc; /* Borde suave */
+}
+
+
+.pulse-background {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Ajusta al tamaño deseado */
+  height: 50px; /* Ajusta al tamaño deseado */
+  border-radius: 50%; /* Hace que sea circular */
+  background-color: rgba(135, 206, 235, 0.3); /* Color de fondo */
+  cursor: pointer;
+  animation: pulse 2s infinite; /* La animación se repite infinitamente */
+}
+
+.pulse-background-datosPersonales {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 108px; /* Ajusta al tamaño deseado */
+  height: 35px; /* Ajusta al tamaño deseado */
+  border-radius: 10%; /* Hace que sea circular */
+  background-color: rgba(135, 206, 235, 0.3); /* Color de fondo */
+  cursor: pointer;
+  animation: pulse 2s infinite; /* La animación se repite infinitamente */
+}
+
+.pulse-background-datosPersonales button{
+  border: none;
+  background-color: transparent;
+}
+.arrow-datos-personales{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(135, 206, 235, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(135, 206, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(135, 206, 235, 0);
+  }
+}
+
+.arrow em:hover{
+  cursor: pointer;
+  color: rgba(135, 206, 235, 0.7);
+}
+
+/* Estilos para el encabezado de opciones de búsqueda */
+.busqueda-opciones h3 {
+  color: rgba(135, 206, 235, 0.7); /* Color azul con opacidad */
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+/* Estilos para los labels y checkboxes */
+.busqueda-opciones .options label {
+  display: block; /* Hace que cada opción aparezca en su propia línea */
+  margin-bottom: 0.5em; /* Añadir espacio entre las opciones */
+  color: rgba(135, 206, 235, 0.5); /* Color azul más claro para el texto */
+  font-weight: bold;
+}
+
+.container-chips {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+}
+
+.card {
+  height: 500px;
+  width: 600px; /* Aproximadamente la mitad del contenedor para que quepan dos tarjetas una al lado de la otra */
+  background: #FFF; /* Fondo blanco para las tarjetas */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+  border-radius: 8px; /* Bordes redondeados para las tarjetas */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card h2 {
+  text-align: center;
+  color: rgba(135, 206, 235, 0.7);; /* Color del texto para el título de la tarjeta */
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.card input {
+  border: 2px solid #87ceeb; /* Borde con el color del wave para el input */
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px; /* Bordes ligeramente redondeados para el input */
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  padding: 10px;
+  background-color: rgba(135, 206, 235, 0.7);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre el texto y el botón de eliminación */
+}
+
+.remove-chip {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* Hace el botón circular */
+  margin-left: auto; /* Alinea el botón a la derecha dentro del chip */
+}
+
+.remove-chip:hover {
+  background-color: rgba(255, 0, 0, 0.3); /* Efecto hover para el botón */
+}
+
+
+
+
+

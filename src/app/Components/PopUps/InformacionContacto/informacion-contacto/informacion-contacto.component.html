@@ -1,0 +1,32 @@
+<!-- informacion-contacto-modal.component.html -->
+<!-- app-informacion-contacto.component.html -->
+<div class="modal fade" id="infoContactoModal" tabindex="-1" aria-labelledby="infoContactoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoContactoModalLabel">{{ usuario.datosPersonales.nombre }} {{ usuario.datosPersonales.apellidos }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2">
+          <h5>Información de contacto</h5>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <label><i class="bi bi-telephone-fill"></i> Teléfono</label>
+          <p>{{ usuario.datosPersonales.telefono }}</p>
+        </div>
+        <div class="mb-2">
+          <label><i class="bi bi-calendar-event-fill"></i> Cumpleaños</label>
+          <p>{{ cumpleanos }}</p>
+        </div>
+        <div class="mb-2">
+          <label><i class="bi bi-geo-alt-fill"></i> Ciudad</label>
+          <p>{{ usuario.datosPersonales.ciudad }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

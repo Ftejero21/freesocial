@@ -1,0 +1,320 @@
+<app-alert-components [errorMessage]="errorMessage" [successMessage]="successMessage"></app-alert-components>
+<div class="conteiner-loader" *ngIf="!datosCargados">
+  <app-loader></app-loader>
+</div>
+
+
+
+
+<div *ngIf="datosCargados" class="color-background"
+  [ngClass]="{'color-background-alternativo': !usuario.imagenBackground}">
+  <div *ngIf="perfilPropio" class="editar-fotoBackground" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+    (click)="operacionActual = 'actualizarImagenBackground'" title="Editar Background">
+    <em class="bi bi-pencil"></em>
+  </div>
+  <img *ngIf="usuario.imagenBackground" [src]="'data:image/jpeg;base64,' + usuario.imagenBackground"
+    class="imagen-background" alt="Imagen de perfil">
+
+  <div class="contenedor-datos-perfil">
+
+    <div class="personalData-perfil">
+      <div class="imagen-perfil">
+        <div>
+          <div [attr.data-bs-toggle]="perfilPropio ? 'modal' : null"
+              [attr.data-bs-target]="perfilPropio ? '#operacionesModal' : null"
+              (click)="perfilPropio ? operacionActual = 'actualizarImagenPerfil' : null">
+            <img *ngIf="usuario.imagenPerfil; else imagenPredeterminada"
+              [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" class="perfil-imagen" alt="Imagen de perfil">
+            <ng-template #imagenPredeterminada>
+              <img src="assets/usuario.png" class="perfil-imagen" alt="Imagen predeterminada">
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="Nombre">
+        <h1>{{ usuario.datosPersonales.nombre }} {{ usuario.datosPersonales.apellidos }}</h1>
+
+      </div>
+
+      <div class="titular">
+        <h6>{{usuario.titular}}</h6>
+      </div>
+      <div class="fecha">
+        <div class="w-100 d-flex justify-content-center">
+          <p *ngIf="usuario.fechaCreacion != null"><i class="bi bi-clock"></i> Miembro activo desde
+            {{usuario.fechaCreacion | date:'dd/MM/yyyy'}}</p>
+        </div>
+
+      </div>
+      <div class="enviarMensaje">
+        <button *ngIf="!perfilPropio" class="btn btn-primary"(click)="navegarAMensajeria(usuario)" >Enviar Mensaje</button>
+      </div>
+      <div class="seccion">
+        <div *ngIf="perfilPropio" class="w-100 d-flex justify-content-end m-1 button">
+          <button data-bs-toggle="modal" data-bs-target="#operacionesModal" (click)="operacionActual = 'seccion'">Añadir
+            seccion <em class="bi bi-plus"></em></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="perfilPropio" class="enlace-editar" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+    (click)="operacionActual = 'actualizarDatosPersonales'">
+    <em class="bi bi-pencil" title="Editar Datos Personales"></em>
+  </div>
+</div>
+
+<div class="conteiner">
+
+  <div *ngIf="datosCargados && perfilPropio" class="Analisis" >
+    <div class="titulo-analisis">
+      <h4>Analisis</h4>
+      <p><em class="bi bi-eye-fill"></em> Solo para ti</p>
+    </div>
+    <div class="description-analisis">
+
+      <div class="visualizaciones">
+        <div class="titulo-visualizaciones">
+          <h5><em class="bi bi-person-fill"></em> 38 Visualizaciones del perfil</h5>
+        </div>
+        <div class="description-visualizaciones">
+          <p>Descubre quién ha visto tu perfil.</p>
+        </div>
+      </div>
+      <div class="publicacion">
+        <div class="titulo-visualizaciones">
+          <h5><em class="bi bi-graph-up-arrow"></em> 38 Impresiones de tu publicación</h5>
+        </div>
+        <div class="description-visualizaciones">
+          <p>Mira quién está interactúando con tus publicaciones.</p>
+        </div>
+      </div>
+      <div class="apariciones-busquedas">
+        <div class="titulo-visualizaciones">
+          <h5><em class="bi bi-search"></em> {{usuario.aparicionBusqueda}} Apariciones en busquedas</h5>
+        </div>
+        <div class="description-visualizaciones">
+          <p>Mira con qué frecuencia apareces en los resultados de búsqueda.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-analisis">
+      <h5>Mira todas las impresiones.</h5>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="datosCargados" class="acercaDe">
+    <div class="titulo-acercaDe">
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Acerca de</h4>
+        <div *ngIf="perfilPropio" class="pencil d-flex justify-content-center align-items-center" data-bs-toggle="modal"
+          data-bs-target="#operacionesModal" (click)="operacionActual = 'actualizarAptitudes'"
+          title="Editar Description">
+          <em class="bi bi-pencil fs-4"></em>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="usuario && usuario.datosPersonales && usuario.descripcion; else textoDePrueba"
+      class="description-acercaDe">
+      <app-component-description [textoCompleto]="usuario.descripcion"></app-component-description>
+    </div>
+    <ng-template #textoDePrueba>
+      <app-component-description class="description-acercaDe"
+        [textoCompleto]="textoDescripcionDePrueba"></app-component-description>
+    </ng-template>
+    <div class="HabilidadesPrincipales">
+      <div class="d-flex flex-column gap-1 p-1">
+        <div>
+          <h5><em class="bi bi-stars iconoAptitudes"></em> Aptitudes Principales</h5>
+        </div>
+        <div class="listaHabilidades">
+          <ng-container *ngIf="usuario.freelancerData?.habilidadesPrincipales as habilidades" class="listaHabilidades">
+            <div *ngFor="let habilidad of habilidades; let i = index">
+              {{ habilidad }}<span *ngIf="i < (habilidades.length - 1)"> - </span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Experiencia -->
+  <div class="experiencia-container" *ngIf="experiencia.length > 0 && datosCargados">
+    <div class="titulo-educacion-container">
+      <div class="w-100 d-flex align-items-center justify-content-between">
+        <div class="titulo-experiencia">
+          <h4>Experiencia</h4>
+        </div>
+        <div class="icono-añadir-educacion" *ngIf="perfilPropio">
+          <em class="bi bi-plus" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+            (click)="operacionActual = 'experienciaLaboral'" title="Añadir experiencia"></em>
+        </div>
+      </div>
+      <div *ngFor="let item of experiencia; let last = last"
+        [ngClass]="{'educacion-border': educacion.length > 1 && !last}" class=" educacion mb-2">
+        <div class="w-100 d-flex justify-content-start">
+          <div class="w-100 d-flex justify-content-between mt-2">
+            <div class="d-flex flex-column ">
+              <h6 class="fw-bold text-uppercase mb-0">{{item.cargo}}</h6>
+              <div class="d-flex gap-1" *ngIf="item.nombreEmpresa || item.tipoEmpleo">
+                <p class="mb-0 text-capitalize fs-6 fw-semibold">{{item.nombreEmpresa}}</p>
+                <p class="mb-0 text-capitalize" *ngIf="item.tipoEmpleo">&bull; {{item.tipoEmpleo}}</p>
+              </div>
+
+              <div class="d-flex gap-1 mb-0">
+                <p class="mb-0 fw-lighter">{{ item.fechaInicio | date:'MMM. yyyy' }} - </p>
+                <p class="mb-0 fw-lighter" *ngIf="item.fechaFin != null">{{ item.fechaFin | date:'MMM. yyyy' }}</p>
+                <p class="mb-0 fw-lighter" *ngIf="item.fechaFin == null"> Actualidad </p>
+                <p class="mb-0 fw-lighter">&bull; {{item.tiempoTrabajado}}</p>
+              </div>
+              <div class="d-flex gap-1">
+                <p class="mb-0 fw-lighter text-capitalize">{{item.ubicacion}}</p>
+                <p *ngIf="item.modoEmpleo">&bull; {{item.modoEmpleo}}</p>
+              </div>
+            </div>
+            <div>
+              <div class="icono-añadir-educacion" *ngIf="perfilPropio">
+                <em class="bi bi-pencil fs-4 m-2" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+                  (click)="abrirModalEditarExperiencia(item)"></em>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-100">
+          <div class="description-container">
+            <app-component-description [textoCompleto]="item.descripcion"></app-component-description>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <h6 class="fw-bold mr-2" *ngIf="item.habilidadesPrincipalesExperiencia.length > 0">Aptitudes: </h6>
+          <h6 class="fw-lighter text-capitalize text-lowercase"
+            *ngIf="item.habilidadesPrincipalesExperiencia && item.habilidadesPrincipalesExperiencia.length > 0">
+            {{ item.habilidadesPrincipalesExperiencia.join(' - ') }}
+          </h6>
+        </div>
+      </div>
+      <div class="w-100 d-flex justify-content-end" *ngIf="anosTotalesExperiencia">
+        <p class="fw-lighter">Total Experiencia: {{anosTotalesExperiencia}}</p>
+      </div>
+    </div>
+
+  </div>
+  <!-- Educacion -->
+  <div class="educacion-container" *ngIf="educacion.length > 0 && datosCargados">
+    <div class="titulo-educacion-container">
+      <div class="w-100 d-flex align-items-center justify-content-between">
+        <div class="titulo-educacion">
+          <h4>Educacion</h4>
+        </div>
+        <div class="icono-añadir-educacion" *ngIf="perfilPropio">
+          <em class="bi bi-plus" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+            (click)="operacionActual = 'añadirEducacion'" title="Añadir educacion"></em>
+        </div>
+      </div>
+      <div *ngFor="let item of educacion; let last = last"
+        [ngClass]="{'educacion-border': educacion.length > 1 && !last}" class=" educacion mb-2">
+        <div class="w-100 d-flex justify-content-start">
+          <div class="w-100 d-flex justify-content-between">
+            <div class="d-flex flex-column ">
+              <h6 class="fw-bold text-uppercase mb-0">{{item.institucion}}</h6>
+              <div class="d-flex gap-1" *ngIf="item.titulo || item.disciplinaAcademica">
+                <p class="mb-0 text-capitalize">{{item.titulo}}</p>
+                <p class="mb-0 text-capitalize" *ngIf="item.disciplinaAcademica">, {{item.disciplinaAcademica}}</p>
+              </div>
+
+              <p class="mb-2">{{ item.fechaInicio | date:'MMM. yyyy' }} - {{ item.fechaFin | date:'MMM. yyyy' }}</p>
+            </div>
+            <div>
+              <div class="icono-añadir-educacion" *ngIf="perfilPropio">
+                <em class="bi bi-pencil fs-4 m-2" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+                  (click)="abrirModalEditarEducacion(item)"></em>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div *ngIf="item.nota" class="d-flex gap-1 mb-0">
+            <h6 class="fw-bold">Titulación:</h6>
+            <h6 class="fw-light">{{item.nota}}</h6>
+          </div>
+          <div *ngIf="item.actividadesExtraEscolares" class="d-flex gap-1">
+            <h6 class="fw-bold">Actividades y Grupos:</h6>
+            <h6 class="fw-light">{{item.actividadesExtraEscolares}}</h6>
+          </div>
+        </div>
+        <div class="w-100">
+          <div class="description-container">
+            <app-component-description [textoCompleto]="item.descripcion"></app-component-description>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2" *ngIf="item.habilidadesPrincipalesEducacion && item.habilidadesPrincipalesEducacion.length > 0">
+          <h6 class="fw-bold mr-2">Aptitudes: </h6>
+          <h6 class="fw-lighter">
+            {{ item.habilidadesPrincipalesEducacion.join(' - ') }}
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Proyecto -->
+    <div class="proyecto-container" *ngIf="proyecto.length > 0 && datosCargados">
+      <div class="titulo-educacion-container">
+        <div class="w-100 d-flex align-items-center justify-content-between">
+          <div class="titulo-experiencia">
+            <h4>Proyectos</h4>
+          </div>
+          <div class="icono-añadir-educacion" *ngIf="perfilPropio">
+            <em class="bi bi-plus" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+              (click)="operacionActual = 'proyecto'" title="Añadir proyecto"></em>
+          </div>
+        </div>
+        <div *ngFor="let item of proyecto; let last = last"
+          [ngClass]="{'educacion-border': educacion.length > 1 && !last}" class=" educacion mb-2">
+          <div class="w-100 d-flex justify-content-start">
+            <div class="w-100 d-flex justify-content-between">
+              <div class="d-flex flex-column ">
+                <h6 class="fw-bold text-uppercase mb-0">{{item.titulo}}</h6>
+                <p class="mb-2">{{ item.fechaInicio | date:'MMM. yyyy' }} - {{ item.fechaFin | date:'MMM. yyyy' }}</p>
+              </div>
+              <div>
+                <div class="icono-añadir-educacion" *ngIf="perfilPropio">
+                  <em class="bi bi-pencil fs-4 m-2" data-bs-toggle="modal" data-bs-target="#operacionesModal"
+                    (click)="abrirModalEditarProyecto(item)"></em>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div *ngIf="item.link" class="button">
+              <button (click)="abrirLink(item.link)">Mostrar proyecto <i class="bi bi-box-arrow-up-right"></i></button>
+            </div>
+          <div class="w-100">
+            <div class="description-container">
+              <app-component-description [textoCompleto]="item.descripcion"></app-component-description>
+            </div>
+          </div>
+          <div class="imagen">
+            <img [src]="'data:image/png;base64,' + item.imagenProyecto" alt="">
+          </div>
+          <div class="d-flex align-items-center gap-2" *ngIf="item.habilidadesPrincipalesProyecto && item.habilidadesPrincipalesProyecto.length > 0">
+            <h6 class="fw-bold mr-2">Aptitudes: </h6>
+            <h6 class="fw-lighter">
+              {{ item.habilidadesPrincipalesProyecto.join(' - ') }}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="separator mt-3" *ngIf="datosCargados">
+    fd
+  </div>
+</div>
+
+<app-editar *ngIf="datosCargados" [educacionActualizar]="educacionActualizar"
+  [experienciaActualizar]="experienciaActualizar" [proyectoActualizar]="proyectoActualizar" [operacion]="operacionActual" [usuario]="usuario"
+  (actualizacionExitosa)="manejarActualizacionExitosa($event)" (modalClosed)="limpiarOperacion()"></app-editar>

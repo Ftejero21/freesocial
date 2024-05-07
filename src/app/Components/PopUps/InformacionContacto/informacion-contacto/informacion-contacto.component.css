@@ -1,0 +1,8 @@
+.modal-body label {
+  font-weight: bold; /* Opcional: si quieres que los labels sean en negrita */
+  display: block; /* Hace que el label ocupe su propia línea */
+}
+
+.modal-body i {
+  margin-right: 5px; /* Añade un pequeño espacio entre el icono y el texto del label */
+}

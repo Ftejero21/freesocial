@@ -1,0 +1,198 @@
+<div class="conteiner-loader" *ngIf="!datosCargados">
+  <app-loader></app-loader>
+</div>
+
+<div class="home-container" *ngIf="datosCargados">
+  <div class="side-section mt-3">
+    <div class="perfil">
+      <div class="imagenes">
+        <img [src]="'data:image/jpeg;base64,' + usuario.imagenBackground" alt="">
+      </div>
+      <div class="imagenPerfilPerfil">
+        <img [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" alt="">
+      </div>
+      <div class="text d-flex flex-column gap-1">
+        <h5 class="text-capitalize">{{usuario.datosPersonales.nombre}} {{usuario.datosPersonales.apellidos}}</h5>
+        <h6 >{{usuario.titular}}</h6>
+      </div>
+    </div>
+
+  </div>
+    <div class="main-section publicaciones">
+      <button *ngIf="showNewPublicationsButton" class="new-publications-btn" (click)="getNewsPublicaciones()">
+        Publicaciones Nuevas
+      </button>
+      <div class="crearPublicacion">
+        <div class="w-100 d-flex gap-1 align-items-center">
+          <div class="img">
+            <img [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" alt="">
+          </div>
+          <div class="buttonCrearPublicacion">
+            <input type="text" readonly placeholder="Crear Publicación" data-bs-toggle="modal" data-bs-target="#publicarModal" (click)="publicarComponent.updateModalContent('publicacion')">
+          </div>
+        </div>
+        <div class="w-100 d-flex justify-content-between mt-2">
+          <button data-bs-toggle="modal" data-bs-target="#publicarModal" (click)="publicarComponent.updateModalContent('multimedia')">
+            <i class="bi bi-card-image text-primary m-2"></i>Contenido Multimedia
+          </button>
+          <button data-bs-toggle="modal" data-bs-target="#publicarModal" (click)="publicarComponent.updateModalContent('evento')">
+            <i class="bi bi-calendar4-week text-warning m-2"></i>Evento
+          </button>
+          <button data-bs-toggle="modal" data-bs-target="#publicarModal" (click)="publicarComponent.updateModalContent('articulo')">
+            <i class="bi bi-file-text text-warning m-2"></i>Escribir Articulo
+          </button>
+        </div>
+      </div>
+      <div class="filtro w-75 d-flex justify-content-end">
+        <div class="d-flex gap-1 justify-content-center">
+          <p class="mb-0">Filtrar publicaciones</p>
+          <select name="" id="">
+            <option default value="">Filtra tus resultados</option>
+            <option value="">Fecha</option>
+            <option value="">Importancia</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="isLoadingNew" class="loader-container">
+        <div class="loader">
+          <span>FreeSocial</span>
+          <span>FreeSocial</span>
+        </div>
+      </div>
+      <div class="listado-publicaciones">
+        <div *ngFor="let publicacion of publicaciones" class="publicacion" (scroll)="onScroll($event)">
+          <div class="d-flex gap-2 w-100 align-items-start justify-content-between">
+           <div class="d-flex gap-2 align-items-start">
+             <div class="imagenPublicacion">
+               <img [src]="'data:image/jpeg;base64,' + publicacion.imagenPerfil" alt="">
+             </div>
+             <div class=" flex-column gap-1">
+               <div class="w-100 d-flex gap-3" >
+                 <h5 class="mb-0 text-capitalize textoNombrePublicacion" [routerLink]="['/perfil', publicacion.idUser]">{{publicacion.nombre}} {{publicacion.apellido}}</h5>
+                 <app-seguir *ngIf="usuario.id != publicacion.idUser" [sigueAutor]="publicacion.sigueAutor" [userId]="publicacion.idUser" (cambioSeguir)="handleCambioSeguir($event)"></app-seguir>
+               </div>
+               <p class="mb-0 textoGris">{{publicacion.titular}}</p>
+               <div class="d-flex gap-1 align-items-center">
+                 <p class="mb-0 textoGris text-capitalize">{{publicacion.fechaPublicacion}} &bull; </p>
+                 <em class="bi bi-globe-americas"></em>
+               </div>
+             </div>
+           </div>
+
+          </div>
+          <div class="contenido-publicacion mt-4">
+            <h3>{{ publicacion.titulo }}</h3>
+            <app-component-description [textoCompleto]="publicacion.texto"></app-component-description>
+            <div class="w-100 d-flex mt-2 mb-1 justify-content-center p-0" *ngIf="publicacion.imagenPublicacionBase64">
+              <img class="w-100 imagenPublicacionBase64" [src]="'data:image/jpeg;base64,' + publicacion.imagenPublicacionBase64" alt="">
+            </div>
+          </div>
+          <div class="count mt-4 w-100 d-flex justify-content-between">
+            <p class="mb-0" *ngIf="publicacion.likeCount > 0"><em class="bi bi-hand-thumbs-up-fill m-1" style="color: #0a66c2;"></em>{{publicacion.likeCount}}</p>
+            <p *ngIf="publicacion.comentarios.length > 0" (click)="toggleComments(publicacion)" class="mb-0 comentarioLongitud">{{publicacion.comentarios.length}} comentarios</p>
+
+          </div>
+          <hr>
+          <div class="w-100 d-flex gap-2 mt-3">
+            <button  [style.color]="publicacion.liked ? '#0a66c2' : 'black'" class="w-100 buttonRecomendar fs-5" (click)="darLike(publicacion, $event)">
+              <i [class]="publicacion.liked ? 'bi bi-hand-thumbs-up-fill m-2 fs-5' : 'bi bi-hand-thumbs-up m-2 fs-5'"
+                  [style.color]="publicacion.liked ? '#0a66c2' : 'black'"></i>
+              Recomendar
+          </button>
+            <button class="buttonRecomendar w-100 fs-5" (click)="toggleComments(publicacion)" [class.underline]="publicacion.showComments"><em class="bi bi-chat-dots m-2"></em> Comentarios</button>
+            <button class="buttonRecomendar w-100 fs-5"><em class="bi bi-share m-2"></em> Compartir</button>
+          </div>
+          <div *ngIf="publicacion.showComments" class="comentarios-container">
+            <div class="w-100 d-flex gap-2  mb-4 mt-4">
+              <div class="img-comentario">
+                <img [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" alt="">
+              </div>
+              <div class="buttonCrearPublicacionComentario">
+                <input type="text" [(ngModel)]="textoComentario" class="" placeholder="Añadir un Comentario...">
+                <div class="w-100 d-flex justify-content-end mt-1">
+                  <button *ngIf="textoComentario.trim().length > 0" (click)="submitComentario(publicacion.id)" class="btn btn-primary ">Publicar Comentario</button>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div *ngIf="publicacion.comentarios.length > 0; else noComments">
+              <div *ngFor="let comentario of publicacion.comentarios" class="mb-4">
+               <div class="d-flex gap-2" [class.comment-enter]="comentario.isNew">
+                <div class="comentario-imagen" >
+                  <img [src]="'data:image/jpeg;base64,' + comentario.imagenPerfilBase64" alt="Imagen de perfil" />
+                </div >
+                 <div class="comentario ">
+                   <div class="d-flex flex-column gap-0 mb-0">
+                     <div class="comentario-header text-capitalize d-flex gap-1 ">
+                       <h6 class="mb-0">{{ comentario.nombreCompleto }}</h6>
+                       <p class="mb-0"> - {{ comentario.fechaCreacion }}</p>
+                       <p class="mb-0 autor" *ngIf="publicacion.idUser == comentario.userId">Autor</p>
+                     </div>
+                     <div>
+                       <p class="mb-0 titular">{{ comentario.titular }}</p>
+                     </div>
+                   </div>
+                   <div class="comentario-texto">
+                     <p class="">{{ comentario.texto }}</p>
+                   </div>
+                 </div>
+               </div>
+               <div  class="respuesta-count" [class.comment-enter]="comentario.isNew">
+                <div class="d-flex gap-1">
+                  <p class="mb-0">Recomendar</p>
+                  <p class="mb-0 cursorPointer" (click)="toggleRespuestas(comentario)"> | Responder</p>
+                </div>
+                <p class="text-muted mb-0" *ngIf="comentario.respuestas?.length" (click)="toggleRespuestas(comentario)">{{ comentario.respuestas?.length }} respuesta(s)</p>
+              </div>
+              <div class="w-100 d-flex gap-2  justify-content-end mb-4 mt-4" *ngIf="comentario.escribiendoRespuesta">
+                <div class="img-comentario">
+                  <img [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" alt="">
+                </div>
+                <div class="buttonCrearPublicacionRespuesta">
+                  <input type="text" [(ngModel)]="textoRespuesta" class="" placeholder="Añadir una Respuesta...">
+                  <div class="w-100 d-flex justify-content-end mt-1">
+                    <button class="btn btn-primary " *ngIf="textoRespuesta.trim().length > 0" (click)="submitRespuesta(comentario.id!)">Publicar Respuesta</button>
+                  </div>
+                </div>
+              </div>
+                <div *ngIf="comentario.mostrarRespuestas">
+                 <div  class="respuesta-container d-flex gap-1 align-items-start" *ngFor="let respuesta of comentario.respuestas">
+                   <div class="comentario-imagen">
+                     <img [src]="'data:image/jpeg;base64,' + respuesta.imagenPerfilBase64" alt="Imagen de perfil">
+                   </div>
+                     <div class="respuesta">
+                        <div class="d-flex flex-column gap-0 mb-0">
+                          <div class="comentario-header text-capitalize d-flex gap-1">
+                            <i class="bi bi-reply-fill"></i>
+                            <h6 class="mb-0">{{ respuesta.nombreCompleto }}</h6>
+                            <p class="mb-0"> - {{ respuesta.fechaCreacion }}</p>
+                            <p class="mb-0 autor" *ngIf="publicacion.idUser == respuesta.userId">Autor</p>
+                          </div>
+                          <div>
+                            <p class="mb-0 titular">{{ respuesta.titular }}</p>
+                          </div>
+                        </div>
+                         <div class="comentario-texto">
+                           <p>{{ respuesta.texto }}</p>
+                         </div>
+                       </div>
+                     </div>
+                     <div>
+
+                     </div>
+                 </div>
+
+               </div>
+              </div>
+            </div>
+            <ng-template #noComments>
+              <div class="no-comments-container d-flex flex-column gap-3">
+                <img src="../../../../assets/hablando.png" alt="" style="width: 70px; height: 70px; color: #0a66c2;">
+                <p class="no-comments-text"> Aún no hay comentarios. ¡Sé el primero en escribir uno!</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+  </div>
+<app-publicar-component></app-publicar-component>

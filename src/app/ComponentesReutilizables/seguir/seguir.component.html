@@ -1,0 +1,8 @@
+<p class="mb-0" [ngClass]="{'siguiendo': sigueAutor, 'no-siguiendo': !sigueAutor}" (click)="seguirUser()">
+  <i class="m-1" [ngClass]="{'bi bi-check-lg': sigueAutor, 'bi bi-person-plus-fill': !sigueAutor}"></i>
+  {{ sigueAutor ? 'Siguiendo' : 'Seguir' }}
+</p>
+
+
+
+

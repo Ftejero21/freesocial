@@ -1,0 +1,20 @@
+.alert-top {
+  position: absolute; /* Cambia 'fixed' a 'absolute' */
+  top: 10px;          /* Distancia desde el borde superior del main-container */
+  right: 10px;        /* Distancia desde el borde derecho del main-container */
+  z-index: 9999;
+  width: auto;        /* Cambia '100%' a 'auto' */
+  margin-top: 0;
+  color: black;
+  font-weight: bold;
+}
+
+.alert-danger {
+  background-color: #f8d7da; /* Rojo para error */
+  color: #721c24;
+}
+
+.alert-success {
+  background-color: #d4edda; /* Verde para éxito */
+  color: #155724;
+}

@@ -1,0 +1,353 @@
+
+<div class="modal fade" id="operacionesModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" (hidden.bs.modal)="closeModal()">
+  <div class="w-100 d-flex justify-content-end mt-4">
+    <div *ngIf="errorMessage" class="alert alert-danger w-25 d-flex gap-2 text-center text-danger fw-bolder text-capitalize" role="alert">
+      <i *ngIf="errorMessage" class="bi bi-exclamation-triangle-fill"></i>
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'actualizarAptitudes'" id="modalLabel">Editar Acerca de</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'actualizarDatosPersonales'" id="modalLabel">Editar Datos Personales</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'actualizarImagenPerfil'" id="modalLabel">Editar Foto De Perfil</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'actualizarImagenBackground'" id="modalLabel">Editar Foto De Fondo</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'seccion'" id="modalLabel">Eliga una seccion</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'experienciaLaboral' && experienciaActualizar?.id == null" id="modalLabel">Añadir Experiencia</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'añadirEducacion' && educacionActualizar?.id == null" id="modalLabel">Añadir Educación</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="educacionActualizar?.id != null" id="modalLabel">Editar Educación</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="experienciaActualizar?.id != null" id="modalLabel">Editar Experiencia</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'proyecto' && proyectoActualizar?.id == null" id="modalLabel">Añadir Proyecto</h5>
+        <h5 class="modal-title tituloPersonales" *ngIf="operacion === 'proyecto' && proyectoActualizar?.id != null" id="modalLabel">Editar Proyecto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="operacion === 'seccion'" class="w-100 d-flex justify-content-center flex-column">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Esencial
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body w-100 d-flex flex-column gap-3">
+                  <p>Vamos a empezar con lo más esencial. Al rellenar estos apartados, ayudarás a los técnicos de selección y las personas que te podrían conocer a encontrarte.</p>
+                  <button (click)="actualizarOperacion('actualizarDatosPersonales')">Datos Personales <em class="bi bi-arrow-right"></em></button>
+                  <button (click)="actualizarOperacion('actualizarAptitudes')">Sobre Mí <em class="bi bi-arrow-right"></em></button>
+                  <button (click)="actualizarOperacion('añadirEducacion')">Educación <em class="bi bi-arrow-right"></em></button>
+                  <button (click)="actualizarOperacion('experienciaLaboral')">Añadir puesto<em class="bi bi-arrow-right"></em></button>
+                </div>
+              </div>
+            </div>
+                  <!-- Nuevo acordeón "Recomendado" -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Recomendado
+              </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div class="accordion-body w-100 d-flex flex-column gap-3">
+                  <p>Aquí puedes añadir información que, aunque no es esencial, podría ser muy útil para destacar en tu perfil.</p>
+                  <button (click)="actualizarOperacion('proyecto')">Proyectos <em class="bi bi-arrow-right"></em></button>
+              </div>
+          </div>
+      </div>
+        </div>
+        </div>
+        <div *ngIf="operacion === 'actualizarImagenPerfil'">
+
+            <div class="w-100 d-flex justify-content-center imagenPerfil">
+              <img *ngIf="imagenPerfilVistaPrevia" [src]="imagenPerfilVistaPrevia" class="img-vista-previa">
+            </div>
+            <div class="w-100 d-flex justify-content-center mt-3" >
+              <div class="conteiner-Button-image">
+                <div>
+                  <app-image-uploader-component (imageSelected)="manejarCambioImagenPerfil($event)"></app-image-uploader-component>
+                </div>
+                <div *ngIf="imagenPerfilVistaPrevia">
+                  <app-download-button  [imagenParaDescargar]="imagenPerfilVistaPrevia" (downloadClicked)="descargarImagen()"></app-download-button>
+                </div>
+                <div>
+                  <app-boton-eliminar *ngIf="imagenPerfilVistaPrevia" (eliminar)="eliminarImagen('perfil')"></app-boton-eliminar>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div *ngIf="operacion === 'actualizarImagenBackground'">
+          <div class="w-100 d-flex justify-content-center imagen-background">
+            <img *ngIf="imagenBackgroundVistaPrevia" [src]="imagenBackgroundVistaPrevia" class="img-vista-previa-background">
+            <form class="file-upload-form" *ngIf="!imagenBackgroundVistaPrevia" (dragover)="onDragOver($event)"(drop)="onDrop($event)" (dragover)="activarSombra()"
+            (dragleave)="desactivarSombra()"
+            (drop)="desactivarSombra()" >
+              <label for="file" class="file-upload-label" [ngClass]="{'formulario-con-sombra': sombraActiva}">
+                <div class="file-upload-design">
+                  <svg viewBox="0 0 640 512" height="1em">
+                    <path
+                      d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"
+                    ></path>
+                  </svg>
+                  <p>Arrastra una imagen</p>
+                  <p>O</p>
+                  <span class="browse-button">Busca en tu PC</span>
+                </div>
+                <input id="file" type="file" (change)="manejarCambioImagenBackground($event)"/>
+              </label>
+            </form>
+          </div>
+          <div class="w-100 d-flex justify-content-center mt-3" >
+            <div class="conteiner-Button-image">
+              <div>
+
+              </div>
+              <div *ngIf="imagenBackgroundVistaPrevia">
+                <app-download-button  [imagenParaDescargar]="imagenBackgroundVistaPrevia" (downloadClicked)="descargarImagen()"></app-download-button>
+              </div>
+              <div>
+                <app-boton-eliminar *ngIf="imagenBackgroundVistaPrevia" (eliminar)="eliminarImagen('fondo')"></app-boton-eliminar>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+          <div *ngIf="operacion === 'actualizarDatosPersonales'">
+
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" id="nombre" [(ngModel)]="UsuarioActualizar.datosPersonales.nombre" name="nombre">
+            </div>
+
+            <div class="form-group">
+              <label for="titulo">Título</label>
+              <!-- Asumiendo que 'titular' es el título, ya que no veo un campo 'titulo' en tu interfaz -->
+              <input type="text" class="form-control" id="titulo" [(ngModel)]="UsuarioActualizar.titular" name="titulo">
+            </div>
+
+            <div class="form-group">
+              <label for="apellidos">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" [(ngModel)]="UsuarioActualizar.datosPersonales.apellidos" name="apellidos">
+            </div>
+
+          </div>
+          <div *ngIf="operacion === 'actualizarAptitudes'">
+            <div class="form-group">
+              <label for="descripcion">Descripción</label>
+              <textarea class="form-control" id="descripcion" rows="4" [(ngModel)]="UsuarioActualizar.descripcion" (keyup)="actualizarConteoCaracteres('datosPersonales')" maxlength="800"></textarea>
+              <div class="w-100 d-flex justify-content-end">
+                <small class="form-text text-muted">{{ conteoCaracteres }}/800 palabras</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="nuevaAptitud">Añadir Aptitud Principal</label>
+              <input type="text" class="form-control" id="nuevaAptitud" [(ngModel)]="nuevaAptitud"  (keyup.enter)="agregarAptitud()"  [disabled]="(UsuarioActualizar.freelancerData?.habilidadesPrincipales?.length ?? 0) >= 5">
+              <p class="contenedorHabilidades">
+                {{ UsuarioActualizar.freelancerData?.habilidadesPrincipales?.length ?? 0 }} / 5 Habilidades
+              </p>
+              <em class="bi bi-plus" (click)="agregarAptitud()"
+                  [class.disabled]="(UsuarioActualizar.freelancerData?.habilidadesPrincipales?.length ?? 0) >= 5"></em>
+                <div class="HabilidadesPrincipales" >
+                  <div  *ngFor="let aptitud of UsuarioActualizar.freelancerData?.habilidadesPrincipales; let i = index">
+                    <div class="habilidad">
+                      {{ aptitud }}
+                      <em class="bi bi-x" (click)="eliminarAptitud(i,'freelancerData')"></em>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+          <!-- Educacion -->
+          <div *ngIf="operacion == 'añadirEducacion' && educacion" class="añadirEducacion">
+            <div class="form-group">
+              <label for="institucion">Institucion Educativa*</label>
+              <input type="text" class="form-control" id="institucion"  [(ngModel)]="educacion.institucion" name="institucion" placeholder="ej: Universidad Rey Juan Carlos">
+            </div>
+            <div class="form-group">
+              <label for="nombre">Titulo*</label>
+              <input type="text" class="form-control" id="Titulo"  [(ngModel)]="educacion.titulo"  name="Titulo" placeholder=" ej: Ingeniería de Software">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Disciplina Academica</label>
+              <input type="text" class="form-control" id="Disciplina"  [(ngModel)]="educacion.disciplinaAcademica" name="Disciplina" placeholder="ej: Informática , Tecnología etc">
+            </div>
+            <div class="form-group d-flex justify-content-center gap-2" style="width: 90%;">
+              <div class="form-group w-100">
+                <label for="nombre">Fecha Inicio</label>
+                <input type="date" class="form-control" id="FechaInicio"  [(ngModel)]="educacion.fechaInicio"  name="FechaInicio">
+              </div>
+              <div class="form-group w-100">
+                <label for="nombre">Fecha Fin</label>
+                <input type="date" class="form-control" id="FechaFin"  [(ngModel)]="educacion.fechaFin"  name="FechaFin">
+              </div>
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Nota</label>
+              <input type="number" class="form-control" id="Nota"  [(ngModel)]="educacion.nota" name="Nota" placeholder="ej: 7,2">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Actividades y Grupos*</label>
+              <input type="text" class="form-control" id="Disciplina"  [(ngModel)]="educacion.actividadesExtraEscolares" name="Disciplina" placeholder="ej: Equipo de futbol,canto,baile...">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Descripcion</label>
+              <textarea class="form-control" id="descripcion" rows="4" class="form-control"  [(ngModel)]="educacion.descripcion" (keyup)="actualizarConteoCaracteres('añadirEducacion')" maxlength="800"></textarea>
+              <div class="w-100 d-flex justify-content-end">
+                {{conteoCaracteres}} / 500 palabras
+              </div>
+            </div>
+            <div class="d-flex flex-column">
+              <h4>Aptitudes</h4>
+              <p>Te recomendamos añadir las 5 aptitudes más relevantes para esta experiencia. También aparecerán en tu sección Aptitudes. <span class="text-info">{{educacion.habilidadesPrincipalesEducacion?.length ?? 0 }} / 5 Habilidades</span></p>
+              <div *ngIf="!mostrarInput && (educacion?.habilidadesPrincipalesEducacion?.length != 5)" class="botonAptitudEducacion">
+                <button (click)="toggleInput()">Añadir Aptitud</button>
+              </div>
+              <input *ngIf="mostrarInput"type="text"[(ngModel)]="nuevaAptitud" [disabled]="educacion.habilidadesPrincipalesEducacion?.length == 5 "(keyup.enter)="handleEnter(operacion)"placeholder="ej:Fotografia , Musica , Informatica"class="form-control">
+              <div class="HabilidadesPrincipales">
+                <div *ngFor="let aptitud of educacion.habilidadesPrincipalesEducacion; let i = index" class="habilidad">
+                  {{ aptitud }}
+                  <em class="bi bi-x" (click)="eliminarAptitud(i,'educacion')"></em>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Experiencia -->
+          <div *ngIf="operacion == 'experienciaLaboral' && experiencia" class="añadirEducacion">
+            <div class="form-group">
+              <label for="institucion">Cargo*</label>
+              <input type="text" class="form-control" id="cargo"  [(ngModel)]="experiencia.cargo" name="institucion" placeholder="ej: Desarrollador de software">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Tipo De Empleo*</label>
+              <select class="form-select" id="tipoEmpleo" name="tipoEmpleo" [(ngModel)]="experiencia.tipoEmpleo">
+                <option value="">Elige una opción</option>
+                <option *ngFor="let tipo of tiposEmpleo" [value]="tipo">{{ tipo }}</option>
+              </select>
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Nombre de Empresa*</label>
+              <input type="text" class="form-control" id="nombreEmpresa"  [(ngModel)]="experiencia.nombreEmpresa" name="nombreEmpresa" placeholder="ej: Google">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Ubicacion</label>
+              <input type="text" class="form-control" id="Disciplina"  [(ngModel)]="experiencia.ubicacion" name="Disciplina" placeholder="ej: Sevilla">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Tipo de Empleo</label>
+              <select class="form-select" id="tipoUbicacion" name="tipoUbicacion" [(ngModel)]="experiencia.modoEmpleo">
+                <option value="">Elige una opción</option>
+                <option *ngFor="let tipo of tipoUbicacion" [value]="tipo">{{ tipo }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="cargoActual" (change)="actualizarFechaFinPorCargoActual()" [(ngModel)]="cargoActual">
+                <label class="form-check-label" for="cargoActual">Actualmente tengo este cargo</label>
+              </div>
+            </div>
+            <div class="form-group d-flex justify-content-center gap-2" style="width: 90%;">
+              <div class="form-group w-100">
+                <label for="nombre">Fecha Inicio</label>
+                  <input type="date" class="form-control" id="FechaInicio"  [(ngModel)]="experiencia.fechaInicio"  name="FechaInicio">
+              </div>
+              <div class="form-group w-100">
+                <label for="nombre">Fecha Fin</label>
+                <input type="date" class="form-control" id="FechaFin"  [(ngModel)]="experiencia.fechaFin"  name="FechaFin" [disabled]="cargoActual">
+              </div>
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Sector</label>
+              <input type="text" class="form-control" id="sector"  [(ngModel)]="experiencia.sector" name="Nota" placeholder="ej: Dessarrollo de software">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Descripcion:</label>
+              <textarea class="form-control" id="descripcion" rows="4" class="form-control"  [(ngModel)]="experiencia.descripcion" (keyup)="actualizarConteoCaracteres('experienciaLaboral')" maxlength="800"></textarea>
+              <div class="w-100 d-flex justify-content-end">
+                {{conteoCaracteres}} / 500 palabras
+              </div>
+            </div>
+            <div class="d-flex flex-column">
+              <h4>Aptitudes</h4>
+              <p>Te recomendamos añadir las 5 aptitudes más relevantes para esta experiencia. También aparecerán en tu sección Aptitudes. <span class="text-info">{{experiencia.habilidadesPrincipalesExperiencia.length }} / 5 Habilidades</span></p>
+              <div *ngIf="!mostrarInput && (experiencia?.habilidadesPrincipalesExperiencia?.length != 5)" class="botonAptitudEducacion">
+                <button (click)="toggleInput()">Añadir Aptitud</button>
+              </div>
+              <input *ngIf="mostrarInput"type="text"[(ngModel)]="nuevaAptitud" [disabled]="experiencia.habilidadesPrincipalesExperiencia.length == 5"(keyup.enter)="handleEnter(operacion)"placeholder="ej:Fotografia , Musica , Informatica"class="form-control">
+              <div class="HabilidadesPrincipales">
+                <div *ngFor="let aptitud of experiencia.habilidadesPrincipalesExperiencia; let i = index" class="habilidad">
+                  {{ aptitud }}
+                  <em class="bi bi-x" (click)="eliminarAptitud(i,'experiencia')"></em>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- proyecto -->
+          <div *ngIf="operacion == 'proyecto' && proyecto" class="añadirEducacion">
+            <div class="form-group">
+              <label for="institucion">Titulo Proyecto*</label>
+              <input type="text" class="form-control" id="NombreProyecto"  [(ngModel)]="proyecto.titulo" name="titulo" placeholder="ej: Red Social para Influencers">
+            </div>
+            <div class="form-group ">
+              <label for="nombre">Descripcion:</label>
+              <textarea class="form-control" id="descripcion" rows="4" class="form-control"  [(ngModel)]="proyecto.descripcion" (keyup)="actualizarConteoCaracteres('proyecto')" maxlength="800"></textarea>
+              <div class="w-100 d-flex justify-content-end">
+                {{conteoCaracteres}} / 500 palabras
+              </div>
+            </div>
+            <div class="d-flex flex-column">
+              <h4>Aptitudes</h4>
+              <p>Te recomendamos añadir las 5 aptitudes más relevantes de este proyecto. También aparecerán en tu sección Aptitudes. <span class="text-info">{{proyecto.habilidadesPrincipalesProyecto.length }} / 5 Habilidades</span></p>
+              <div *ngIf="!mostrarInput && (proyecto?.habilidadesPrincipalesProyecto?.length != 5)" class="botonAptitudEducacion">
+                <button (click)="toggleInput()">Añadir Aptitud</button>
+              </div>
+              <input *ngIf="mostrarInput"type="text"[(ngModel)]="nuevaAptitud" [disabled]="proyecto.habilidadesPrincipalesProyecto.length == 5"(keyup.enter)="handleEnter(operacion)"placeholder="ej:Fotografia , Musica , Informatica" class="form-control">
+              <div class="HabilidadesPrincipales">
+                <div *ngFor="let aptitud of proyecto.habilidadesPrincipalesProyecto; let i = index" class="habilidad">
+                  {{ aptitud }}
+                  <em class="bi bi-x" (click)="eliminarAptitud(i,'proyecto')"></em>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column">
+              <h4>Contenido Multimedia</h4>
+              <p>Añade contenido multimedia como imágenes, documentos, sitios web o presentaciones.</p>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  Añadir contenido
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><button class="dropdown-item" href="#" (click)="mostrarInputLinkFunction()"><i class="bi bi-link-45deg"></i> Añadir Link</button></li>
+                  <li><button class="dropdown-item" (click)="triggerFileInput()"><i class="bi bi-image"></i> Añadir Foto</button></li>
+                </ul>
+              </div>
+              <input *ngIf="mostrarInputLink" type="text" class="form-control mt-2" placeholder="Añade un link" id="link" [(ngModel)]="proyecto.link">
+              <input type="file" id="fileInput" style="display: none;" (change)="fileChanged($event)" />
+                <div class="imagen-background mt-3 w-50">
+                  <img *ngIf="imagenPrevisualizacionProyecto" [src]="imagenPrevisualizacionProyecto" class="w-75"  alt="Image Preview">
+                </div>
+            </div>
+            <div class="form-group d-flex justify-content-center gap-2" style="width: 90%;">
+              <div class="form-group w-100">
+                <label for="nombre">Fecha Inicio*</label>
+                  <input type="date" class="form-control" id="FechaInicio"  [(ngModel)]="proyecto.fechaInicio"  name="FechaInicio">
+              </div>
+              <div class="form-group w-100">
+                <label for="nombre">Fecha Fin*</label>
+                <input type="date" class="form-control" id="FechaFin"  [(ngModel)]="proyecto.fechaFin"  name="FechaFin" >
+              </div>
+            </div>
+          </div>
+        <!-- Añadir más operaciones según sea necesario -->
+      </div>
+      <div class="modal-footer w-100 d-flex justify-content-end" *ngIf="operacion != 'seccion'">
+        <button type="button" class="btn btn-primary botonGuardar"  (click)="actualizar(operacion)">Guardar</button>
+        <button class="btn btn-danger botonGuardar" *ngIf="educacionActualizar?.id != null || experienciaActualizar?.id != null" (click)="borrar(operacion)">Borrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,6 @@
+<div *ngIf="errorMessage || successMessage" [@slideDown]="errorMessage || successMessage ? 'visible' : 'hidden'" class="alert alert-top" [ngClass]="errorMessage ? 'alert-danger' : 'alert-success'" role="alert">
+  <i *ngIf="errorMessage" class="bi bi-exclamation-triangle-fill"></i>
+  <i *ngIf="successMessage" class="bi bi-check-circle-fill"></i>
+  {{ errorMessage || successMessage }}
+</div>
+

@@ -1,0 +1,8 @@
+<div class="description-acercaDe">
+  <span [innerHTML]="displayedText"></span>
+  <h6 *ngIf="textoCompleto.length > wordLimit" (click)="toggleText()" class="toggle-text">
+    {{ isTruncated ? 'Ver más' : 'Ver menos'}}
+  </h6>
+</div>
+
+

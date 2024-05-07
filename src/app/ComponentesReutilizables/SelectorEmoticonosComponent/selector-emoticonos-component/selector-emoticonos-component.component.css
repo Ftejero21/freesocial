@@ -1,0 +1,10 @@
+.selector-emoticonos {
+  position: absolute;
+  z-index: 1000;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
