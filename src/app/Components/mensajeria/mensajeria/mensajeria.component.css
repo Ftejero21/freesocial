@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 
 .cajaPrincipal{
@@ -107,6 +107,15 @@
   min-height: 636px;
   overflow: auto;
 
+}
+
+.conteinerMensajes::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+.conteinerMensajes::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* Color del thumb del scrollbar */
+  border-radius: 4px; /* Radio de borde del thumb */
 }
 
 .mensaje {
