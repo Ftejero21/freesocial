@@ -452,8 +452,8 @@ input[type="text"], input[type="password"] {
 
 .arrow {
   position: absolute; /* Posición absoluta en relación a su contenedor más cercano que tenga posición relativa o absoluta */
-  top: 10px; /* Ajusta la cantidad de píxeles según necesites */
-  left: 10px; /* Ajusta la cantidad de píxeles según necesites */
+  top: 85px; /* Ajusta la cantidad de píxeles según necesites */
+  left: 35px; /* Ajusta la cantidad de píxeles según necesites */
   z-index: 1000; /* Asegura que estará sobre los demás elementos */
 }
 .arrow em{
