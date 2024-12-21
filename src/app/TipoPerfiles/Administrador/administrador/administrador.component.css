@@ -1,0 +1,93 @@
+.contenedor {
+  width: 100%;
+  height: 94vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra verticalmente ambos elementos */
+  gap: 3%; /* Mantener un espacio entre .filtro y .tabla */
+}
+
+.filtro {
+  width: 20%;
+  height: 40%;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: -259px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.tabla {
+  width: 70%;
+  height: auto;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: -185px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.activo {
+  color: green;
+  font-weight: bold;
+}
+
+.bloqueado {
+  color: red;
+  font-weight: bold;
+}
+
+.full-screen-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegura que esté por encima de todo */
+}
+
+.full-screen-loader .spinner {
+  text-align: center;
+  color: white;
+}
+
+.full-screen-loader p {
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+/* Opcional: Añadir una animación de spinner */
+.full-screen-loader .spinner::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-top-color: transparent;
+  animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

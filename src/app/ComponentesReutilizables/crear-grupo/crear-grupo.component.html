@@ -1,0 +1,55 @@
+<div  class="modal fade" id="crearGrupoModal" tabindex="-1" aria-labelledby="crearGrupoModalLabel"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearGrupoModalLabel">Crear Grupo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Imagen del grupo -->
+        <div class="text-center mb-4">
+          <img *ngIf="imagenGrupo" [src]=" 'data:image/jpeg;base64,' + imagenGrupo" alt="Imagen del grupo"
+          class="rounded-circle" width="200" height="200">
+          <img *ngIf="!imagenGrupo" [src]="'assets/usuario.png'" alt="Imagen del grupo"
+          class="rounded-circle" width="200" height="200">
+          <input type="file" id="imagenGrupo" (change)="onImagenSeleccionada($event)" class="form-control mt-2" />
+        </div>
+
+        <!-- Título del grupo -->
+        <div class="mb-4">
+          <label for="nombreChat" class="form-label">Título</label>
+          <input type="text" id="nombreChat" class="form-control" [(ngModel)]="nombreChat" placeholder="Nombre del Grupo" />
+        </div>
+
+        <!-- Lista de usuarios -->
+        <div class="usuarios-container">
+          <h5 class="text-center mb-4">Selecciona Usuarios</h5>
+          <div class="usuarios-list">
+            <div
+              *ngFor="let usuario of usuarios"
+              class="usuario-item d-flex align-items-center"
+              [ngClass]="{ 'selected': usuariosSeleccionados.includes(usuario.id) }"
+            >
+              <input
+                type="checkbox"
+                [value]="usuario.id"
+                (change)="onSeleccionUsuario(usuario)"
+              />
+              <label class="ms-2 flex-grow-1">{{ usuario.nombreCompleto }}</label>
+              <img
+                *ngIf="usuario.imagenPerfil"
+                [src]= "usuario.imagenPerfil"
+                alt="Imagen de perfil"
+                class="imagen-perfil"
+              />
+            </div>
+          </div>
+        </div>
+      <div class="modal-footer mt-2">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="crearGrupo()">Crear Grupo</button>
+      </div>
+    </div>
+  </div>
+</div>
+

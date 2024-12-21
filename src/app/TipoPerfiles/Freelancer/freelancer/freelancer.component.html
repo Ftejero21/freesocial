@@ -3,8 +3,24 @@
   <app-loader></app-loader>
 </div>
 
+<div [@slideDown]="animationState" class="elemento-desde-scroll" *ngIf="perfilPropio">
+  <div class="perfilScroll p-1 d-flex align-items-center">
+    <div class="datosPersonales gap-3">
+      <div class="">
+        <img [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" class="imagen-perfil2" alt="">
+      </div>
+      <div class="Nombre d-flex flex-column">
+        <p class="mb-0 text-capitalize fw-bold">{{usuario.datosPersonales.nombre + ' ' + usuario.datosPersonales.apellidos}}</p>
+        <p class="mb-0 text-capitalize">{{usuario.titular}}</p>
 
-
+      </div>
+    </div>
+    <div class="button">
+      <button data-bs-toggle="modal" data-bs-target="#operacionesModal" (click)="operacionActual = 'seccion'">Añadir
+        seccion <em class="bi bi-plus"></em></button>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="datosCargados" class="color-background"
   [ngClass]="{'color-background-alternativo': !usuario.imagenBackground}">

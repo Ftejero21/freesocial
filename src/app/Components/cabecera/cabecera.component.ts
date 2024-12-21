@@ -15,6 +15,8 @@ import { MensajeriaService } from 'src/app/Service/mensajeria/mensajeria.service
 import { validateStoredToken } from 'src/app/Utils/token-utils';
 import { ErrorService } from 'src/app/Service/Error/error.service';
 import { Chat } from 'src/app/Interface/Chat';
+import { NotificacionService } from 'src/app/Service/notificacion/notificacion.service';
+import { Notificacion } from 'src/app/Interface/Notificacion';
 
 
 
@@ -27,6 +29,8 @@ export class CabeceraComponent implements OnInit {
   public nombreBusqueda = ''
   public resultadosBusqueda: Usuario[] = [];
   public usuario!:Usuario | null;
+  notificaciones: Notificacion[] = [];
+  notificacionesNoLeidasCount = 0;
   public imagenPerfil!:string | null | undefined
   mensajeNewCount: number = 0;
   private chatsSubscription!: Subscription;
@@ -34,11 +38,15 @@ export class CabeceraComponent implements OnInit {
   private routerSubscription!: Subscription;
   isInMensajeria: boolean = false;
   rutaActual!: string;
-  rutasExcluidas: string[] = ['inicio', 'mensajeria'];
-  constructor(private errorService: ErrorService ,private loginService:LoginService,private router: Router,private mensajeriaService: MensajeriaService, private activatedRoute: ActivatedRoute) { }
+  public rolId!:number;
+  private previousCount: number = 0;
+  private previousNotificacionesCount: number = 0;
+  private audio = new Audio('assets/sonido.mp3'); // Ruta al sonido en los assets
+  rutasExcluidas: string[] = ['inicio', 'mensajeria' , ''];
+  private originalTitle: string = document.title;
+  constructor(private errorService: ErrorService ,private loginService:LoginService,private router: Router,private mensajeriaService: MensajeriaService, private activatedRoute: ActivatedRoute,private notificacionService: NotificacionService) { }
 
   ngOnInit(): void {
-
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -48,12 +56,17 @@ export class CabeceraComponent implements OnInit {
       this.rutaActual = route.snapshot.url.map(segment => segment.path).join('/');
 
       // Verificar si la ruta actual no está en el arreglo de rutas excluidas
-      if (!this.rutasExcluidas.includes(this.rutaActual)) {
+      if (!this.rutasExcluidas.includes(this.rutaActual) || this.rutaActual == '') {
         this.obtenerUsuario();
         this.subs.add(this.mensajeriaService.mensajeNewCount$.subscribe(count => {
+          if (count > this.previousCount) {
+            this.playSound();
+          }
+          this.updateTitle(count, this.notificacionesNoLeidasCount);
+          this.previousCount = count;
           this.mensajeNewCount = count;
         }));
-
+        this.getNotificaciones();
         this.subs.add(
           this.router.events.pipe(
             filter((event): event is NavigationEnd => event instanceof NavigationEnd)
@@ -67,9 +80,30 @@ export class CabeceraComponent implements OnInit {
 
   }
 
+
+  private playSound(): void {
+    this.audio.play().catch(error => {
+      console.error('Error al reproducir el sonido:', error);
+    });
+  }
+
+  private updateTitle(mensajeCount: number, notificacionCount: number): void {
+    const totalCount = mensajeCount + notificacionCount;
+    if (totalCount > 0) {
+      document.title = `(${totalCount}) ${this.originalTitle}`;
+    } else {
+      this.resetTitle();
+    }
+  }
+
+  private resetTitle(): void {
+    document.title = this.originalTitle;
+  }
+
   ngOnDestroy(): void {
     this.subs.unsubscribe();
     this.routerSubscription.unsubscribe();
+    this.resetTitle()
   }
 
 
@@ -123,7 +157,7 @@ export class CabeceraComponent implements OnInit {
         (usuario: Usuario) => {
           this.imagenPerfil = usuario.imagenPerfil;
           this.usuario = usuario;
-
+          this.rolId = this.usuario.roles[0].id;
         },
         error => {
           console.error('Error al obtener los datos del usuario', error);
@@ -131,19 +165,21 @@ export class CabeceraComponent implements OnInit {
       );
   }
 
-  // private monitorMensajesNuevos(): void {
-  //   this.chatsSubscription = interval(3000).pipe(
-  //     switchMap(() => this.mensajeriaService.getChats())
-  //   ).subscribe(chats => {
-  //     let nuevosMensajesCount = 0;
-  //     chats.forEach((chat:Chat) => {
-  //       const lastMessage = chat.mensajes[chat.mensajes.length - 1];
-  //       if (lastMessage && !lastMessage.leido && lastMessage.userId !== this.usuario?.id) {
-  //         nuevosMensajesCount++;
-  //       }
-  //     });
-  //     this.mensajeNewCount = nuevosMensajesCount;
-  //   });
-  // }
+  public getNotificaciones(): void {
+    setInterval(() => {
+      this.notificacionService.getNotificaciones().subscribe(data => {
+        this.notificaciones = data;
+        const newNotificacionesNoLeidasCount = this.notificaciones.filter(n => !n.leido).length;
+
+        if (newNotificacionesNoLeidasCount > this.previousNotificacionesCount) {
+          this.playSound();
+        }
+
+        this.updateTitle(this.mensajeNewCount, newNotificacionesNoLeidasCount);
+        this.previousNotificacionesCount = newNotificacionesNoLeidasCount;
+        this.notificacionesNoLeidasCount = newNotificacionesNoLeidasCount;
+      });
+    }, 2000);
+  }
 
 }

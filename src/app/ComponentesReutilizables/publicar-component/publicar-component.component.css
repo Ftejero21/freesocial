@@ -1,0 +1,45 @@
+.modal-body {
+  padding: 20px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control-private {
+  width: 100%;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  padding: 5px;
+  cursor: pointer;
+  min-height: 250px;
+  max-height: 350px;
+  font-size: 1.2em;
+
+}
+
+.form-control-private::placeholder {
+  color: #999999; /* Cambia este valor al color que desees */
+  font-size: 1.2em; /* Cambia este valor al tamaño que desees */
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.botoncard {
+  cursor: pointer;
+  font-size: 20px; /* Ajusta el tamaño según necesites */
+  color: #555; /* Cambia el color si es necesario */
+  font-size: x-large;
+}
+
+.botoncard:hover{
+  color: #007bff;
+}
+
+.iconoTemporizador{
+  font-size: x-large;
+}

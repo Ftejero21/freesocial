@@ -17,8 +17,6 @@ export class InformacionContactoComponent implements OnInit {
   }
 
   private obtenerUsuario() {
-    // Suponiendo que obtienes los datos del usuario así
-    // ...
     this.formatoCumpleaños(this.usuario.datosPersonales.fechaNacimiento);
   }
 

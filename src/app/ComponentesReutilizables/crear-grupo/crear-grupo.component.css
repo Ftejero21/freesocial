@@ -1,0 +1,88 @@
+.botonCrearGrupo button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.botonCrearGrupo button:hover {
+  background-color: #0056b3;
+}
+
+.modal .form-label {
+  font-weight: bold;
+}
+
+.modal .d-flex.flex-wrap {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.modal .rounded-circle {
+  object-fit: cover;
+}
+.usuarios-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.usuarios-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.usuario-item {
+  display: flex;
+  align-items: center;
+  flex: 1 1 calc(50% - 15px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.usuario-item.selected {
+  background-color: #d4edda; /* Verde claro */
+  border-color: #c3e6cb; /* Verde */
+}
+
+.usuario-item:hover {
+  background-color: #e6f7ff; /* Azul claro */
+}
+
+.imagen-perfil {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%; /* Imagen redonda */
+  object-fit: cover; /* Ajusta la imagen al contenedor */
+  margin-left: 10px;
+}
+
+#crearGrupoModal .modal-dialog {
+  margin-top: 70px;
+  max-width: 900px; /* Aumentar el ancho */
+  height: auto;
+  width: 90%; /* El 90% del ancho de la pantalla */
+}
+
+#crearGrupoModal .modal-content {
+  height: 800px; /* Reducir la altura */
+}
+
+#crearGrupoModal .modal-body {
+   /* Espaciado interno */
+  display: flex;
+  flex-direction: column; /* Organizar el contenido verticalmente */
+  justify-content: space-between; /* Separar el contenido internamente */
+}
+
+

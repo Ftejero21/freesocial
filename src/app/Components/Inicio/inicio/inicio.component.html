@@ -1,4 +1,12 @@
 
+<div *ngIf="usuarioBloqueado" class="popup-overlay">
+  <div class="popup-content">
+    <h2>Usuario Bloqueado</h2>
+    <p>Tu cuenta ha sido bloqueada. Por favor, contacta con el soporte si crees que esto es un error.</p>
+    <p class="link-info pointer" (click)="cerrarPopup()">Iniciar Sesion con otra cuenta</p>
+  </div>
+</div>
+
 <div class="main-container">
   <app-alert-components [errorMessage]="errorMessage" [successMessage]="successMessage"></app-alert-components>
 

@@ -101,13 +101,16 @@ export class InicioComponent implements OnInit {
   public confirmPassword: string = '';
   public mostrarBotonGuardar: boolean = false;
   private auth2: any;
+  usuarioBloqueado: boolean = false;
 
   usuarioRegistro: Usuario = {
     id: null,
     aparicionBusqueda:0,
+    nombreCompleto:'',
     email: '',
     password: '',
     roles: [],
+    estado:'',
     datosPersonales: {
       nombre: '',
       apellidos: '',
@@ -135,7 +138,11 @@ export class InicioComponent implements OnInit {
   ngOnInit(): void {
     this.errorService.clearError();
     this.goodRequestService.clearSuccess();
-    validateStoredToken(this.loginService, this.router,this.errorService);
+    this.verificarEstadoUsuario();
+    console.log(this.usuarioBloqueado)
+    if(this.usuarioBloqueado){
+      validateStoredToken(this.loginService, this.router,this.errorService);
+    }
     this.cogerCiudades();
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],  // Aquí puedes añadir más validadores si lo necesitas
@@ -159,11 +166,28 @@ export class InicioComponent implements OnInit {
         this.successTimer = setTimeout(() => this.successMessage = null, 3000);
       }
     });
+  }
 
+  cerrarPopup(): void {
+    this.loginForm.reset();
+    this.usuarioBloqueado = false;
   }
 
 
-
+  verificarEstadoUsuario(): void {
+    this.loginService.obtenerEstadoUsuarioActual().subscribe({
+      next: (estado: string) => {
+        console.log(estado)
+        if (estado === 'Bloqueado') {
+          console.log(estado)
+          this.usuarioBloqueado = true;
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener el estado del usuario:', error);
+      }
+    });
+  }
 
 
   public inicio(): void {
@@ -202,6 +226,8 @@ export class InicioComponent implements OnInit {
     this.usuarioRegistro = {
       id: null,
       email: '',
+      estado:'',
+      nombreCompleto:'',
       password: '',
       aparicionBusqueda:0,
       roles: [],
@@ -236,7 +262,7 @@ export class InicioComponent implements OnInit {
           }, 1000);
           console.log("data: ",data)
           localStorage.setItem('authToken', JSON.stringify(token));
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/perfil/null']);
       },error => {
         console.error('Error en el registro', error);
 

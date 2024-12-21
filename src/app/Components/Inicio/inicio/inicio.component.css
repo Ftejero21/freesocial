@@ -452,7 +452,7 @@ input[type="text"], input[type="password"] {
 
 .arrow {
   position: absolute; /* Posición absoluta en relación a su contenedor más cercano que tenga posición relativa o absoluta */
-  top: 10px; /* Ajusta la cantidad de píxeles según necesites */
+  top: 71px; /* Ajusta la cantidad de píxeles según necesites */
   left: 10px; /* Ajusta la cantidad de píxeles según necesites */
   z-index: 1000; /* Asegura que estará sobre los demás elementos */
 }
@@ -638,7 +638,39 @@ input[type="text"], input[type="password"] {
   background-color: rgba(255, 0, 0, 0.3); /* Efecto hover para el botón */
 }
 
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegura que esté por encima de todo */
+}
 
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 80%;
+}
 
+.popup-content h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: red; /* Color del título */
+}
 
+.popup-content p {
+  font-size: 16px;
+  color: #333; /* Color del texto */
+}
 
+.pointer{
+  cursor: pointer;
+}

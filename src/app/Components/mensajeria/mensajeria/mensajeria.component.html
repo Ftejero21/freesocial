@@ -3,96 +3,221 @@
     <div class="cajaChats flex-column gap-1">
       <div class="buscarMensajes w-100 d-flex gap-4">
         <h4 class="mb-0">Mensajes</h4>
-        <input type="text" class="form-control" [(ngModel)]="filtro" (ngModelChange)="buscarChat()" placeholder="Buscar Mensajes...">
+        <input type="text" class="form-control" [(ngModel)]="filtro" (ngModelChange)="buscarChat()" placeholder="Buscar Contactos...">
       </div>
-      <div *ngFor="let chat of chats; let i = index; let last = last" class="chats"(click)="seleccionarChat(chat)"[ngClass]="{'chat-activo': chatActual && chat.id === chatActual.id,'chat-with-border': !last,'negrita':chat.nuevoMensaje}">
-        <div class="imagenChat">
-          <!-- Utiliza la imagen en base64 como fuente de la imagen -->
-          <img [src]="'data:image/jpeg;base64,' + chat.imagenPerfilReceptorBase64" alt="Imagen de perfil">
-        </div>
-        <div class="nombreChat d-flex flex-column">
-          <!-- Muestra el nombre completo del receptor -->
-          <h5 class="mb-0">{{ chat.nombreCompletoReceptor }}</h5>
-          <p class="tituloChat">
-            <!-- Comprobar si hay mensajes -->
-            <ng-container *ngIf="chat.mensajes && chat.mensajes.length > 0; ">
-              <!-- Comprobar si el último mensaje contiene una imagen -->
-              <ng-container *ngIf="chat.mensajes[chat.mensajes.length - 1].imagenMensaje; else textMessage">
-                <img style="width: 30px; height: 30px;" [src]="'data:image/jpeg;base64,' + chat.mensajes[chat.mensajes.length - 1].imagenMensaje" alt="Imagen del mensaje">
-                - {{ chat.mensajes[chat.mensajes.length - 1].fechaCreacion }}
-                <span *ngIf="chat.nuevoMensaje" class="badge bg-success">{{ chat.mensajesNoLeidos }}</span>
+      <div class="botones-vista">
+        <button
+          class="boton-vista"
+          [ngClass]="{ 'active': mostrarChatsIndividuales }"
+          (click)="cambiarAVistaIndividual()">
+          Individual
+          <span *ngIf="mensajesIndividualesPendientes > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+            {{ mensajesIndividualesPendientes }}
+          </span>
+        </button>
+        <button
+          class="boton-vista"
+          [ngClass]="{ 'active': !mostrarChatsIndividuales }"
+          (click)="cambiarAVistaGrupal()">
+          Grupal
+        </button>
+      </div>
+      <div *ngIf="mostrarChatsIndividuales">
+        <div
+          *ngFor="let chat of chats; let i = index; let last = last"
+          class="chats"
+          (click)="seleccionarChat(chat)"
+          [ngClass]="{'chat-activo': chatActual && chat.id === chatActual.id, 'chat-with-border': !last, 'negrita': chat.nuevoMensaje}">
+          <div class="imagenChat">
+            <img [src]="'data:image/jpeg;base64,' + chat.imagenPerfilReceptorBase64" alt="Imagen de perfil">
+          </div>
+          <div class="nombreChat d-flex flex-column">
+              <h5 class="mb-0">{{ chat.nombreCompletoReceptor }}</h5>
+            <p class="tituloChat">
+              <ng-container *ngIf="chat.esBorrador; else mensajeContent">
+                <span class="green">Borrador: </span>
+                {{ chat.mensajeNuevo | truncate:20:false }}
               </ng-container>
 
-              <!-- Template alternativo si no hay imagen en el último mensaje -->
-              <ng-template #textMessage>
-                {{ (chat.mensajes[chat.mensajes.length - 1].contenido ?? '') | truncate:20:false }} -
-                {{ chat.mensajes[chat.mensajes.length - 1].fechaCreacion }}
-                <span *ngIf="chat.nuevoMensaje" class="badge bg-success">{{ chat.mensajesNoLeidos }}</span>
+              <ng-template #mensajeContent>
+                <ng-container *ngIf="chat.mensajes && chat.mensajes.length > 0;">
+                  <ng-container *ngIf="chat.mensajes[chat.mensajes.length - 1].imagenMensaje; else textMessage">
+                    <img style="width: 30px; height: 30px;" [src]="'data:image/jpeg;base64,' + chat.mensajes[chat.mensajes.length - 1].imagenMensaje" alt="Imagen del mensaje">
+                    - {{ chat.mensajes[chat.mensajes.length - 1].fechaCreacion }}
+                    <span *ngIf="chat.nuevoMensaje" class="badge bg-success">{{ chat.mensajesNoLeidos }}</span>
+                  </ng-container>
+
+                  <ng-template #textMessage>
+                    {{ (chat.mensajes[chat.mensajes.length - 1].contenido) | truncate:20:false }} -
+                    {{ chat.mensajes[chat.mensajes.length - 1].fechaCreacion }}
+                    <span *ngIf="chat.nuevoMensaje" class="badge bg-success">{{ chat.mensajesNoLeidos }}</span>
+                  </ng-template>
+                </ng-container>
               </ng-template>
-            </ng-container>
-
-
-          </p>
+            </p>
+          </div>
         </div>
       </div>
+
+      <div *ngIf="!mostrarChatsIndividuales">
+        <div
+          *ngFor="let chat of chatsGrupales; let i = index; let last = last"
+          class="chats position-relative"
+          (click)="seleccionarChatGrupal(chat)"
+          [ngClass]="{ 'chat-activo': chatActualGrupal && chat.id === chatActualGrupal.id, 'chat-with-border': !last }">
+
+          <!-- Imagen del chat grupal -->
+          <div class="imagenChat">
+            <img *ngIf="chat.usuarios && chat.usuarios.length > 0"[src]="'data:image/jpeg;base64,' + chat.imagenGrupoBase64"alt="Imagen de perfil del chat grupal">
+          </div>
+
+          <!-- Información del chat -->
+          <div class="w-100 nombreChat d-flex flex-column">
+            <!-- Nombre del chat y tiempo transcurrido -->
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">{{ chat.nombreChat | truncate:20:false }}</h5>
+              <p class="mb-0 p-1 text-muted">{{ chat.ultimoMensaje?.fechaCreacion }}</p>
+            </div>
+            <p class="tituloChat mb-0">
+              <ng-container *ngIf="chat.ultimoMensaje; else noMessages">
+                <!-- Mostrar el remitente como "Tú" si el userId coincide -->
+                <strong *ngIf="chat.ultimoMensaje.userId === usuarioId; else notYou">Tú:</strong>
+                <ng-template #notYou>
+                  <strong>{{ chat.ultimoMensaje.nombreRemitente }}</strong>:
+                </ng-template>
+                {{ chat.ultimoMensaje.contenido | truncate:40:false }}
+              </ng-container>
+
+              <!-- Mensaje predeterminado si no hay mensajes -->
+              <ng-template #noMessages>
+                <span>No hay mensajes aún</span>
+              </ng-template>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="botonCrearGrupo">
+        <button data-bs-toggle="modal" data-bs-target="#crearGrupoModal">Crear Grupo</button>
+      </div>
     </div>
-     <div class="cajaMensajes" *ngIf="chatActual">
-      <div class="tituloMensajes ">
+     <div class="cajaMensajes" *ngIf="chatActual || chatActualGrupal">
+      <div class="tituloMensajes d-flex">
         <div *ngIf="chatActual" class="imagenMensaje">
           <img [src]="'data:image/jpeg;base64,' + chatActual.imagenPerfilReceptorBase64" alt="Imagen de perfil de {{ chatActual.nombreCompletoReceptor }}">
         </div>
-        <div *ngIf="chatActual" class="NombreMensaje d-flex flex-column">
-          <h5 class="mb-0">{{ chatActual.nombreCompletoReceptor }}</h5>
+        <div *ngIf="chatActual && !chatActualGrupal" class="NombreMensaje d-flex flex-column">
+          <div class="w-100">
+            <h5 class="mb-0">
+              {{ chatActual.nombreCompletoReceptor }}
+              <i *ngIf="!usuarioAusente && usuarioConectado; else notConnectedIcon" class="bi bi-check-circle-fill text-success" title="Conectado"></i>
+              <ng-template #notConnectedIcon>
+                <i *ngIf="!usuarioAusente && !usuarioConectado" class="bi bi-x-circle-fill text-danger" title="Desconectado"></i>
+              </ng-template>
+              <i *ngIf="usuarioAusente" class="bi bi-exclamation-circle-fill text-warning" title="Ausente"></i>
+            </h5>
+          </div>
           <p class="mb-0">{{chatActual.titularReceptor}}</p>
-          <small *ngIf="isEscribiendo" class="text-muted">Escribiendo...</small>
+          <p *ngIf="isEscribiendo && usuario.id != chatActual.receptorId" class="mb-0 escribiendo">
+            Escribiendo<span class="dots"><span>.</span><span>.</span><span>.</span></span>
+          </p>
+        </div>
+        <div *ngIf="chatActualGrupal && !chatActual" class="NombreMensaje d-flex flex-column">
+          <div class="w-100">
+            <h5 class="mb-0">
+              {{ chatActualGrupal.nombreChat }}
+            </h5>
+            <p>
+              <span *ngFor="let usuario of chatActualGrupal.usuarios; let i = index" class="mb-0">
+                {{ usuario.nombreCompleto}}
+                <span *ngIf="i < chatActualGrupal.usuarios.length - 1">, </span>  <!-- Coma entre usuarios -->
+              </span>
+            </p>
+            <p *ngIf="nombreEscribiendoGrupal && !esMismoUsuarioEscribiendo()"class="mb-0 escribiendo">
+              {{ nombreEscribiendoGrupal }}<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+          </div>
         </div>
       </div>
+
         <div class="conteinerMensajes" #scrollContainer>
-          <div *ngFor="let mensaje of mensajesSeleccionados" class="mensaje" [ngClass]="{'mensaje-propio': mensaje.userId === usuarioId}">
+          <div *ngFor="let mensaje of mensajesSeleccionados" class="mensaje" [ngClass]="{'mensaje-propio': mensaje.userId === usuarioId}" >
             <div class="dropdown" *ngIf="mensaje.userId === usuarioId">
-              <button class="btn btn-link" type="button"
-                      id="dropdownMenuButton{{mensaje.id}}"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      (click)="isDropdownOpen = !isDropdownOpen">
-                <i class="bi bi-three-dots-vertical"></i>
-              </button>
+              <button class="btn btn-link" type="button"id="dropdownMenuButton{{mensaje.id}}" data-bs-toggle="dropdown"aria-expanded="false"(click)="isDropdownOpen = !isDropdownOpen"><i class="bi bi-three-dots-vertical"></i></button>
               <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownMenuButton' + mensaje.id">
                 <li><button class="dropdown-item" *ngIf="mensaje.id" (click)="deleteMensaje(mensaje.id)">Eliminar Mensaje</button></li>
+                <li><button class="dropdown-item2" *ngIf="mensaje.id" (click)="prepararEdicionMensaje(mensaje)">Editar Mensaje</button></li>
               </ul>
+            </div>
+          <div class="reaccion" *ngIf="mensaje.userId != usuarioId">
+            <em class="bi bi-emoji-smile" *ngIf="mensaje.id" (click)="mostrarPopUpReaccion(mensaje.id, $event)"></em>
           </div>
-            <p>{{ mensaje.contenido }}</p>
+          <div class="reaccionEmote" *ngIf="mensaje.reaccion">
+            <p class="mb-0">{{mensaje.reaccion}}</p>
+          </div>
+              <p class="contenidoMensaje">{{ mensaje.contenido }}</p>
             <div class="imagenMensajeContenido" *ngIf="mensaje.imagenMensaje">
               <img [src]="'data:image/jpeg;base64,' + mensaje.imagenMensaje" alt="" >
             </div>
             <div class="fechaMensaje">
+              <p *ngIf="mensaje.edit" class="mb-0 text-dark">Editado</p>
               {{ mensaje.fechaCreacion }}
-              <i *ngIf="mensaje.userId === usuarioId && mensaje.leido" class="bi bi-check2-all fw-bold fs-5 text-primary"></i>
+              <i *ngIf="mensaje.userId === usuarioId && mensaje.leido" class="bi bi-check2-all fw-bold fs-5 text-primary" title="Leido"></i>
+              <i *ngIf="mensaje.userId === usuarioId && !mensaje.leido" class="bi bi-check2-all fw-bold fs-5" title="Enviado"></i>
+            </div>
+            <div *ngIf="mensaje.id === mensajeSeleccionado" class="popup-reaccion">
+              <div class="popup-content">
+                <button *ngFor="let reaccion of reacciones" (click)="actualizarReaccion(mensajeSeleccionado, reaccion)">
+                  {{reaccion}}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let mensaje of mensajesSeleccionadosGrupales" class="mensaje"[ngClass]="{'mensaje-propio': mensaje.userId === usuarioId}">
+            <div class="w-100 d-flex justify-content-start gap-3 " *ngIf="mensaje.userId != usuarioId">
+              <img [src]="'data:image/jpeg;base64,' + mensaje.imagenPerfil" class="image-container" style="width: 30px; height: 30px; border-radius: 50%;" alt="">
+              <p  class="mb-0 fw-bold text-capitalize">{{mensaje.nombreUsuario}}</p>
+            </div>
+            <p class="contenidoMensaje mt-3">{{ mensaje.contenido }}</p>
+
+            <!-- Mostrar la fecha de creación del mensaje -->
+            <div class="fechaMensaje">
+              {{ mensaje.fechaCreacion }}
             </div>
           </div>
         </div>
+
+
         <div class="envioMensaje">
-          <div class="previsualizarImage d-flex align-items-center justify-content-center gap-2" *ngIf="urlImagen" >
+          <div class="previsualizarImage d-flex align-items-center justify-content-center gap-2 p-2" *ngIf="urlImagen" >
             <img [src]="urlImagen">
             <p class="mb-0">{{nombreImagen}}</p>
             <i class="bi bi-x-circle-fill" (click)="quitarImagen()"></i>
           </div>
+          <div class="previsualizarArchivo d-flex align-items-center justify-content-center gap-2 p-2" *ngIf="urlArchivo">
+            <ng-container *ngIf="isPdf">
+              <embed [src]="urlArchivo" type="application/pdf" width="100" height="100">
+            </ng-container>
+            <p class="mb-0">{{nombreArchivo}}</p>
+            <i class="bi bi-x-circle-fill" (click)="quitarImagen()"></i>
+          </div>
+
+
           <div  class="input-wrapper w-100">
-            <input type="text" [(ngModel)]="mensajeNuevo" (click)="actualizarPosicionCursor($event)"(keyup)="actualizarPosicionCursor($event)"(select)="actualizarPosicionCursor($event)" placeholder="Escribe tu mensaje aquí..."class="mensajeInput"(keyup.enter)="enviarMensaje()">
-              <i (click)="toggleEmojiPicker()" class="bi bi-emoji-grin botonEmoji" *ngIf="!mostrarEmoticon"></i>
-              <i (click)="toggleEmojiPicker()" class="bi bi-emoji-laughing-fill botonEmoji yellow" *ngIf="mostrarEmoticon"></i>
+            <div *ngIf="esBorrador" class="prefix">
+              Borrador:
+            </div>
+            <textarea #mensajeInput [(ngModel)]="mensajeNuevo"(input)="autoWrap($event); handleInput($event)"(keyup)="notificarEscribiendoGeneral(); actualizarPosicionCursor($event)"(select)="actualizarPosicionCursor($event)"placeholder="Escribe tu mensaje aquí..." class="mensajeInput" (keyup.enter)="enviarMensajeGeneral()" rows="1" style="resize:none; overflow:hidden;" [ngStyle]="{ 'padding-left': esBorrador ? '84px' : '5px' }"></textarea>
             <input type="file" id="fileInput" style="display:none" (change)="archivoSeleccionado($event)" #fileInputRef>
-            <i class="bi bi-card-image botoncard" (click)="fileInputRef.click()"></i>
-            <div #emojiPicker [hidden]="!mostrarEmojis" class="emojiPicker">
-              <span class="emoji" *ngFor="let emoji of emojis" (click)="agregarEmojiAlMensaje(emoji)">{{emoji}}</span>
+            <div class="iconos-container">
+              <i class="bi bi-card-image botoncard" (click)="fileInputRef.click()"></i>
+              <app-emoji-picker-component (emojiSeleccionado)="agregarEmojiAlMensaje($event)"></app-emoji-picker-component>
             </div>
           </div>
-          <button (click)="enviarMensaje()" class="botonEnviar">Enviar</button>
+          <button (click)="enviarMensajeGeneral()" class="botonEnviar">Enviar</button>
 
         </div>
 
     </div>
-    <div *ngIf="!chatActual" class="w-100 h-100 d-flex bg-body justify-content-sm-evenly align-items-center flex-column ">
+    <div *ngIf="!chatActual && !chatActualGrupal" class="w-75 h-100 d-flex bg-body justify-content-sm-evenly align-items-center flex-column ">
 
         <img class="position-relative" src="../../../../assets/chatVacio.jpg" alt="" style="width: 100%; height: 100%;">
 
@@ -101,7 +226,7 @@
         <h4 class="tituloChatVacio"> No has escogido ningun Chat. ¡Abre uno!</h4>
       </div>
     </div>
-
   </div>
-
+  <app-crear-grupo></app-crear-grupo>
 </div>
+

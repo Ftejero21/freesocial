@@ -35,6 +35,46 @@ export class LoginService {
     return this.httpClient.get<Usuario>(`${API_ENDPOINT}usuario/obtenerUsuario`, { headers: headers });
   }
 
+  public obtenerUsuarios():Observable<any> {
+    const storedToken = this.Utils.getToken();
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+
+    return this.httpClient.get<Usuario>(`${API_ENDPOINT}usuario/usuarios`, { headers: headers });
+  }
+
+  public obtenerUsuariosQueSigo():Observable<any> {
+    const storedToken = this.Utils.getToken();
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+
+    return this.httpClient.get<Usuario>(`${API_ENDPOINT}usuario/seguidos`, { headers: headers });
+  }
+
+  public cambiarEstadoUsuario(userId: number | null, nuevoEstado: string): Observable<string> {
+    const storedToken = this.Utils.getToken();
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+
+    return this.httpClient.put<string>(`${API_ENDPOINT}usuario/usuarios/${userId}/estado`, null, {
+      headers: headers,
+      params: { nuevoEstado: nuevoEstado },
+      responseType: 'text' as 'json' // Esto le indica a Angular que la respuesta es de tipo texto y no JSON
+    });
+  }
+
+  public obtenerEstadoUsuarioActual(): Observable<string> {
+    const storedToken = this.Utils.getToken();
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+
+    return this.httpClient.get<string>(`${API_ENDPOINT}usuario/usuario/estado`, {
+      headers: headers,
+      responseType: 'text' as 'json'  // Configurar el responseType como 'text'
+    });
+  }
+
+
   public seguirUser(usuarioASeguirId:number): Observable<any> {
     const storedToken = this.Utils.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);

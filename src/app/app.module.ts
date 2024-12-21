@@ -30,6 +30,12 @@ import { SeguirComponent } from './ComponentesReutilizables/seguir/seguir.compon
 import { MensajeriaComponent } from './Components/mensajeria/mensajeria/mensajeria.component';
 import { TruncatePipe } from './Utils/Truncate/truncate.pipe';
 import { PublicarComponentComponent } from './ComponentesReutilizables/publicar-component/publicar-component.component';
+import { EmojiPickerComponentComponent } from './ComponentesReutilizables/EmojiPickerComponent/emoji-picker-component/emoji-picker-component.component';
+import { NotificacionComponent } from './Components/notificacion/notificacion/notificacion.component';
+import { AdministradorComponent } from './TipoPerfiles/Administrador/administrador/administrador.component';
+import { GestionComponent } from './Components/gestion/gestion.component';
+import { TaskModalComponent } from './ComponentesReutilizables/task-modal/task-modal.component';
+import { CrearGrupoComponent } from './ComponentesReutilizables/crear-grupo/crear-grupo.component';
 
 
 
@@ -60,7 +66,13 @@ import { PublicarComponentComponent } from './ComponentesReutilizables/publicar-
     SeguirComponent,
     MensajeriaComponent,
     TruncatePipe,
-    PublicarComponentComponent
+    PublicarComponentComponent,
+    EmojiPickerComponentComponent,
+    NotificacionComponent,
+    AdministradorComponent,
+    GestionComponent,
+    TaskModalComponent,
+    CrearGrupoComponent
 
 
   ],

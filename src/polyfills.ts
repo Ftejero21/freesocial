@@ -47,6 +47,9 @@
  */
 import 'zone.js';  // Included with Angular CLI.
 import 'globalthis/auto';
+(window as any).global = window;
+
+declare var OffscreenCanvas: any;
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

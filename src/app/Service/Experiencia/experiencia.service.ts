@@ -13,12 +13,12 @@ export class ExperienciaService {
   constructor(private httpClient:HttpClient,private Utils:utils) { }
 
 
-  public saveOrUpdate(data: ExperienciaLaboral): Observable<any> {
+  public saveOrUpdate(data: ExperienciaLaboral): Observable<ExperienciaLaboral> {
 
     const storedToken = this.Utils.getToken();
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
-    return this.httpClient.post<any>(API_ENDPOINT + "experiencia/saveOrUpdate", data, { headers: headers });
+    return this.httpClient.post<ExperienciaLaboral>(API_ENDPOINT + "experiencia/saveOrUpdate", data, { headers: headers });
   }
 
   public getExperiencia(id?: number): Observable<any> {

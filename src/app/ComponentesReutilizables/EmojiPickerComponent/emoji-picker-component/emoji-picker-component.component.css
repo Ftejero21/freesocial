@@ -1,0 +1,47 @@
+.emojiPicker {
+  position: absolute;
+  bottom: 111%;
+  right: -60px;
+  width: 30%;
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 5px;
+}
+.emojiPicker::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+.emojiPicker::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* Color del scrollbar */
+  border-radius: 4px; /* Radio de borde del thumb */
+}
+
+.emoji {
+  flex: 0 0 auto;
+  margin: 5px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.botonEmoji:hover{
+  color: orange;
+}
+.yellow{
+  color: orange;
+}
+
+.botonEmoji {
+  top: 7px;
+  position: absolute;
+  right: 65px; /* Ajusta la posición derecha según necesites */
+  cursor: pointer;
+  font-size: 20px; /* Ajusta el tamaño según necesites */
+  color: #555; /* Cambia el color si es necesario */
+}

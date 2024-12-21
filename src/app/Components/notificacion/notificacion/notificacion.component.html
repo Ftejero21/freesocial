@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="filtro">
+    <h5>Filtros</h5>
+    <button>Ver configuración</button>
+  </div>
+  <div class="notificacionesContainer">
+    <div class="titulo w-100 d-flex justify-content-between">
+      <h5 class="fw-bold">Notificaciones</h5>
+      <button class="btn btn-primary" (click)="marcarTodasComoLeidas()">Marcar como leidas</button>
+    </div>
+    <div class="notificacion2">
+      <div class="notificacion" *ngFor="let notificacion of notificaciones" (click)="marcarComoLeida(notificacion.id)"[ngClass]="{'not-leida': !notificacion.leido}">
+
+        <div class="mb-0 w-100 d-flex justify-content-end">
+          <p class="mb-0">{{notificacion.fechaCreacion}}</p>
+        </div>
+        <div class="w-100 d-flex align-items-start gap-2">
+          <div class="imgNotificacion">
+            <img [src]="'data:image/jpeg;base64,' + notificacion.datos.imagenPerfil" alt="">
+          </div>
+          <div class="contenidoNotificacion">
+            <div class="d-flex gap-1 nombreContenido">
+              <h5 class="mb-0">{{notificacion.datos.nombreCompleto}}</h5>
+              <h6 class="mb-0 mt-1" *ngIf="notificacion.tipo == 'notificacionComentario'"> &bull; Respuesta a una Publicación</h6>
+            </div>
+            <p class="mb-0">{{notificacion.datos.titular}}</p>
+            <div class="comentario mt-2" *ngIf="notificacion.datos.comentario">
+              <span class="d-flex gap-1">Ha escrito:<p class="mb-0">{{notificacion.datos.comentario | truncate:65:false}}</p></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

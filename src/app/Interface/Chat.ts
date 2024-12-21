@@ -10,4 +10,7 @@ export interface Chat {
   nuevoMensaje?: boolean;
   mensajesNoLeidos?:number;
   mensajes: Mensaje[];
+  online?: boolean;
+  esBorrador?: boolean;
+  mensajeNuevo?: string;
 }

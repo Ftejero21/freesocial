@@ -1,0 +1,33 @@
+.priority-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.default-dot {
+  background-color: #e0e0e0;  /* Gris claro */
+  border: 2px solid #c0c0c0;  /* Borde gris */
+}
+
+.priority-dot.red {
+  background-color: red;
+}
+
+.priority-dot.orange {
+  background-color: orange;
+}
+
+.priority-dot.green {
+  background-color: green;
+}
+
+label {
+  cursor: pointer;
+  display: block;
+}
+
+label.selected {
+  font-weight: bold;
+}

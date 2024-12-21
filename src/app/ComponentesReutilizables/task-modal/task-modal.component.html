@@ -1,0 +1,60 @@
+<div class="modal fade mt-5" id="taskModal" #taskModal tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModalLabel">Editar Tarea</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- Campo de título de la tarea -->
+          <div class="mb-3">
+            <label for="taskTitle" class="form-label">Título</label>
+            <input type="text" class="form-control" id="taskTitle" [(ngModel)]="task.title" name="title">
+          </div>
+
+          <!-- Campo de descripción de la tarea -->
+          <div class="mb-3">
+            <label for="taskDescription" class="form-label">Descripción</label>
+            <textarea class="form-control" id="taskDescription" rows="3" [(ngModel)]="task.description" name="description"></textarea>
+          </div>
+
+          <!-- Campo de fecha de vencimiento -->
+          <div class="mb-3">
+            <label for="taskDueDate" class="form-label">Fecha de vencimiento</label>
+            <input type="date" class="form-control" id="taskDueDate" [(ngModel)]="task.dueDate" name="dueDate">
+          </div>
+
+          <!-- Campo de prioridad -->
+          <div class="mb-3">
+            <label for="taskPriority" class="form-label">Prioridad</label>
+            <div class="row text-center mb-3">
+              <div class="col">
+                <label (click)="selectPriority('ALTA')" [class.selected]="task.priority === 'ALTA'">
+                  Alta
+                  <div class="priority-dot" [ngClass]="{'red': task.priority === 'ALTA', 'default-dot': task.priority !== 'ALTA'}"></div>
+                </label>
+              </div>
+              <div class="col">
+                <label (click)="selectPriority('MEDIA')" [class.selected]="task.priority === 'MEDIA'">
+                  Media
+                  <div class="priority-dot" [ngClass]="{'orange': task.priority === 'MEDIA', 'default-dot': task.priority !== 'MEDIA'}"></div>
+                </label>
+              </div>
+              <div class="col">
+                <label (click)="selectPriority('BAJA')" [class.selected]="task.priority === 'BAJA'">
+                  Baja
+                  <div class="priority-dot" [ngClass]="{'green': task.priority === 'BAJA', 'default-dot': task.priority !== 'BAJA'}"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveTask()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

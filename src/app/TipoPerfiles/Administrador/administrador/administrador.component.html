@@ -1,0 +1,67 @@
+<div *ngIf="isLoading" class="full-screen-loader">
+  <div class="spinner">
+  </div>
+</div>
+
+
+<div class="contenedor gap-3">
+    <div class="filtro">
+
+    </div>
+    <div class="tabla">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Nombre Completo</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th>Aciones</th>
+            <th>Informacion</th>
+          </tr>
+        </thead>
+        <tbody class="accordion" id="usuariosAccordion">
+            <ng-container *ngFor="let usuario of usuarios; let i = index" >
+              <!-- Fila principal con la información del usuario -->
+              <tr class="align-baseline">
+                <td>
+                  <img *ngIf="usuario.imagenPerfil; else defaultImage" [src]="'data:image/jpeg;base64,' + usuario.imagenPerfil" alt="Imagen de Perfil" class="profile-img">
+                  <ng-template #defaultImage>
+                    <img src="assets/usuario.png" alt="Imagen Predeterminada" class="profile-img">
+                  </ng-template>
+                </td>
+                <td class="text-capitalize">{{ usuario.datosPersonales.nombre }} {{ usuario.datosPersonales.apellidos }}</td>
+                <td>{{ usuario.email }}</td>
+                <td [ngClass]="{'activo': usuario.estado === 'Activo', 'bloqueado': usuario.estado === 'Bloqueado'}">
+                  {{ usuario.estado }}
+                </td>
+                <td>
+                  <button class="btn btn-danger" *ngIf="usuario.estado == 'Activo'" (click)="cambiarEstado(usuario, 'Bloqueado')">Bloquear</button>
+                  <button class="btn btn-primary" *ngIf="usuario.estado == 'Bloqueado'" (click)="cambiarEstado(usuario, 'Activo')">Desbloquear</button>
+                </td>
+                <td>
+                  <h5 class="informacion-btn pointer" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'collapse' + i">
+                    Información
+                  </h5>
+                </td>
+              </tr>
+
+              <!-- Fila colapsable con la información adicional del usuario -->
+              <tr>
+                <td colspan="6" class="p-0">
+                  <div [id]="'collapse' + i" class="collapse" [attr.data-bs-parent]="'#usuariosAccordion'">
+                    <div class="user-info p-3">
+                      <p><strong>Dirección:</strong> {{ usuario.datosPersonales.ciudad }}</p>
+                      <p><strong>Teléfono:</strong> {{ usuario.datosPersonales.telefono }}</p>
+                      <p><strong>Fecha de Nacimiento:</strong> {{ usuario.datosPersonales.fechaNacimiento | date }}</p>
+                      <!-- Añadir más información si es necesario -->
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+</div>

@@ -15,22 +15,6 @@ export class PerfilComponent implements OnInit {
   public rolId:any = null;
   constructor(private usuarioService: LoginService,private route: ActivatedRoute) { }
 
-  // ngOnInit(): void {
-
-
-
-
-
-  //   this.userId = this.route.snapshot.params('id');
-  //   console.log(this.userId)
-  //   obtenerIdRol(this.usuarioService).subscribe(idRol => {
-  //     this.rolId = idRol;
-  //   }, error => {
-  //     console.error('Error al obtener el ID del rol', error);
-  //   });
-  // }
-
-
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id');

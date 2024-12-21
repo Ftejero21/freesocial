@@ -3,15 +3,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="publicarModalLabel">{{ title }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="limpiarModal()"></button>
       </div>
       <div class="modal-body">
-        {{ content }}
+        <!-- Formulario -->
+        <form *ngIf="contentType === 'publicacion' && formData" (ngSubmit)="saveContent()">
+          <div class="mb-3">
+            <textarea class="form-control-private" id="texto" [(ngModel)]="formData.texto" name="texto" rows="3" required placeholder="¿De qué quieres hablar?"></textarea>
+          </div>
+          <div class="mb-3">
+            <input type="file" id="fileInput" style="display:none" #fileInputRef (change)="onFileSelected($event)">
+            <i class="bi bi-card-image botoncard" (click)="fileInputRef.click()"></i>
+          </div>
+        </form>
+
+        <!-- Aquí puedes agregar otros formularios específicos según el tipo de contenido -->
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <div class="modal-footer w-100 d-flex justify-content-end gap-1">
+        <div *ngIf="showDateTimeInputs" class="d-inline-flex align-items-center">
+          <input type="date" class="form-control me-2"  name="fecha" *ngIf="formData">
+          <input type="time" class="form-control"  name="hora" *ngIf="formData">
+        </div>
+        <i class="bi bi-clock-history iconoTemporizador" (click)="toggleDateTimeInputs()" style="cursor: pointer;"></i>
+        <button type="button" class="btn btn-primary" (click)="saveContent()">Publicar</button>
       </div>
     </div>
   </div>
 </div>
-

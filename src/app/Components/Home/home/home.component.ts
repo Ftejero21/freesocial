@@ -1,5 +1,4 @@
 import { Component, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { validateStoredToken } from '../../../Utils/token-utils'; // Actualiza la ruta correctamente
 import { LoginService } from 'src/app/Service/Login/login.service';
 import { ErrorService } from 'src/app/Service/Error/error.service';
 import { Router } from '@angular/router';
@@ -10,7 +9,6 @@ import { Filtro } from 'src/app/Interface/Filtro';
 import { Subject, Subscription, debounceTime, interval, timer } from 'rxjs';
 import { LikeService } from 'src/app/Service/LikeService/like.service';
 import { Comentario } from 'src/app/Interface/Comentario';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PublicarComponentComponent } from 'src/app/ComponentesReutilizables/publicar-component/publicar-component.component';
 
@@ -24,12 +22,12 @@ import { PublicarComponentComponent } from 'src/app/ComponentesReutilizables/pub
 export class HomeComponent implements OnInit,OnDestroy {
   public usuario!:Usuario
   public publicaciones:Publicacion[] = []
-  @ViewChild(PublicarComponentComponent) publicarComponent!: PublicarComponentComponent;
   public filtro: Filtro = { fechaPublicacion: null };
   pagina: number = 0;
   iconClass = 'bi bi-hand-thumbs-up';
   iconColor = 'black';
   tamano: number = 10;
+  public contentType: string = '';
   commentCount:number = 0;
   public mostrarRespuestas: { [comentarioId: number]: boolean } = {};
   public comentarios: Comentario[] = [];
@@ -55,8 +53,9 @@ export class HomeComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
      this.getUser();
-     this.getPublicaciones();
      this.setupPeriodicCheck();
+     this.getPublicaciones();
+
   }
 
   ngOnDestroy() {
@@ -71,6 +70,10 @@ export class HomeComponent implements OnInit,OnDestroy {
         pub.sigueAutor = event.sigueAutor;
       }
     });
+  }
+
+  public openModal(type: string): void {
+    this.contentType = type;
   }
 
   setupPeriodicCheck() {

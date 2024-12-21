@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, ChangeDetectorRef, Component, HostListener, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { error } from 'jquery';
 import { Subject, Subscription, switchMap } from 'rxjs';
@@ -18,13 +19,32 @@ import { FormValidationUtils } from 'src/app/Utils/form-validation.utils';
 @Component({
   selector: 'app-freelancer',
   templateUrl: './freelancer.component.html',
-  styleUrls: ['./freelancer.component.css']
+  styleUrls: ['./freelancer.component.css'],
+  animations: [
+    trigger('slideDown', [
+      state('hidden', style({
+        transform: 'translateY(-100%)', // Fuera de la pantalla, en la parte superior
+        opacity: 0,
+      })),
+      state('visible', style({
+        transform: 'translateY(0)', // Posición original (visible)
+        opacity: 1
+      })),
+      transition('hidden => visible', [
+        animate('0.5s ease-in') // Duración de la animación
+      ]),
+      transition('visible => hidden', [
+        animate('0.3s ease-out') // Animación al ocultar
+      ])
+    ])
+  ]
 })
 export class FreelancerComponent implements OnInit {
   public usuario!: Usuario;
   public educacion:Educacion[] = [];
   public experiencia:ExperienciaLaboral[] = []
   public proyecto:Proyecto[] = []
+  mostrarElemento: boolean = false;
   @ViewChild('popup') popupComponent!: ContenidoMultimediaComponentComponent;
   items: any[] = []; // Tus items aquí
   @Input() userId!: number | null;
@@ -72,6 +92,22 @@ export class FreelancerComponent implements OnInit {
 
   }
 
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const alturaTrigger = 450;
+
+    if (scrollY > alturaTrigger) {
+      this.mostrarElemento = true;
+    } else {
+      this.mostrarElemento = false;
+    }
+  }
+
+  get animationState() {
+    return this.mostrarElemento ? 'visible' : 'hidden';
+  }
 
   public manejarActualizacionExitosa(event: boolean) {
     if (event) {

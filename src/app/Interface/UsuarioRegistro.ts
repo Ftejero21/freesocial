@@ -4,6 +4,7 @@ export interface Usuario {
   id: number | null;
   email: string;
   password: string;
+  nombreCompleto:string
   roles: Rol[];
   datosPersonales: DatosPersonales;
   contratanteData?: ContratanteData;
@@ -16,6 +17,7 @@ export interface Usuario {
   titular?:string
   descripcion?:string
   aparicionBusqueda:number;
+  estado:string
 
 }
 

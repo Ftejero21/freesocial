@@ -44,7 +44,6 @@
 .chats{
   width: 100%;
   height: 80px;
-
   display: flex;
   align-items: center;
   gap: 15px;
@@ -72,10 +71,8 @@
 
 .tituloMensajes{
   width: 100%;
-  height: 70px;
   background-color: white;
   display: flex;
-  align-items: center;
   gap: 10px;
   padding: 15px;
 }
@@ -104,7 +101,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 636px;
+  min-height: 570px;
   overflow: auto;
 
 }
@@ -135,6 +132,7 @@
   margin-right: 0;
   width: 50%;
   background-color: #96ce00;
+  margin-bottom: 15px
 }
 
 .mensaje-propio p{
@@ -178,6 +176,18 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.mensajeInput {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
 
 .botonEnviar {
   padding: 10px 20px;
@@ -268,14 +278,6 @@
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-
-
 .botonEmoji {
   position: absolute;
   right: 49px; /* Ajusta la posición derecha según necesites */
@@ -291,9 +293,7 @@
   align-items: center;
 }
 
-.mensajeInput {
-  flex-grow: 1;
-}
+
 
 .botonEmoji {
   position: relative;
@@ -303,13 +303,24 @@
   right: 70px;
   transition: 0.2s ease-in-out;
 }
-.botoncard{
-  position: relative;
+
+
+
+
+
+.iconos-container {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.botoncard {
+  top: 7px;
+  position: absolute;
+  right: 37px; /* Ajusta la posición derecha según necesites */
   cursor: pointer;
-  font-size: 20px;
-  color: #555;
-  right: 60px;
-  transition: 0.2s ease-in-out;
+  font-size: 20px; /* Ajusta el tamaño según necesites */
+  color: #555; /* Cambia el color si es necesario */
 }
 
 .botoncard:hover{
@@ -362,10 +373,32 @@
   top: -51px;
   left: 12px;
   z-index: 10;
-  width: 202px;
+  width: auto;
   border-radius: 5px;
   border-bottom: none;
   height: 60px;
+  background-color: lightblue;
+}
+
+.previsualizarImage i {
+  margin-top: -40px;
+  margin-right: -7px;
+}
+
+.previsualizarArchivo i{
+  margin-top: -100px;
+  margin-right: -7px;
+}
+
+.previsualizarArchivo{
+  position: absolute;
+  top: -105px;
+  left: 12px;
+  z-index: 10;
+  width: auto;
+  border-radius: 5px;
+  border-bottom: none;
+  height: auto;
   background-color: lightblue;
 }
 
@@ -387,8 +420,261 @@
   height: 200px;
 }
 
+.reaccion em{
+  cursor: pointer;
+}
+
+.reaccion em:hover{
+  color: orange;
+}
+
 .imagenMensajeContenido img{
   width: 100%;
   height: 100%;
+}
+
+.popup-reaccion {
+  position: absolute;
+  padding: 10px;
+  background-color: white;
+  border-radius:5px;
+  top: 100%;
+  left: 70%;
+  z-index: 1000;
+}
+
+.reaccionEmote{
+  position: absolute;
+  top: 75%;
+  padding: 2px 4px;
+  background-color: #003344;
+  border-radius: 50px;
+}
+
+.popup-content {
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content button {
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  padding: 10px;
+  background-color: transparent;
+}
+
+.popup-content button:hover{
+  transform: scale(1.25);
+}
+
+.reaccion{
+  position: absolute;
+  top: 39%;
+  left: 103%;
+  font-size: 15px;
+
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  33% { opacity: 0; }
+  66% { opacity: 1; }
+}
+
+.dots span {
+  display: inline-block;
+  animation: blink 1s infinite;
+  color: #96ce00;
+
+}
+
+.dots span:nth-child(2) {
+  animation-delay: 0.2s;
+  color: #96ce00;
+}
+
+.dots span:nth-child(3) {
+  animation-delay: 0.4s;
+  color: #96ce00;
+}
+
+.escribiendo{
+  font-family: italic;
+  color: #96ce00;
+  font-weight: bold;
+}
+
+.editar p{
+  margin-right: 10px;
+  color: gray;
+}
+
+.contenidoMensaje{
+  width: 95%;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.prefix {
+  position: absolute;
+  top: 11px; /* Ajusta esto según sea necesario */
+  left: 8px; /* Ajusta esto según sea necesario */
+  color: green;
+  pointer-events: none;
+  user-select: none;
+  font-weight: bold;
+}
+
+
+
+.green{
+  color: green;
+  font-weight: bold;
+}
+
+/* Estilo para el contenedor de la llamada */
+.call-container {
+  position: fixed;
+  top: 13%;
+  left: 8%;
+  width: 84%;
+  height: 75%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+/* Video remoto (ocupa la mayor parte de la pantalla) */
+.video.remote {
+  width: 80%;
+  height: 80%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+/* Video local (más pequeño, superpuesto en la esquina inferior derecha) */
+.video.local {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 20%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+  z-index: 10; /* Para asegurar que se superponga al video remoto */
+}
+
+/* Botón de colgar la llamada */
+.hangup-button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 20; /* Para asegurar que esté por encima de los videos */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hangup-button i {
+  font-size: 24px;
+}
+
+.mute-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.mute-button:hover {
+  color: red;
+}
+
+.hangup-button {
+  background-color: red;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.botonCrearGrupo{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding: 16px;
+
+}
+.botonCrearGrupo button{
+  width: 100%;
+  padding: 10px;
+  border: none;
+}
+
+.botones-vista {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.boton-vista {
+  width: 49%;
+  text-align: center;
+  background-color: transparent;
+  position: relative;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+
+.badge {
+  font-size: 0.75rem;
+  padding: 5px 8px;
+  border-radius: 50%;
+}
+
+.boton-vista:hover {
+  background-color: #e8e8e8;
+}
+
+.boton-vista.active {
+  border-bottom: 4px solid #28a745; /* Color verde */
+  font-weight: bold;
+}
+
+.boton-vista:not(.active) {
+  border-bottom: 4px solid transparent;
 }
 

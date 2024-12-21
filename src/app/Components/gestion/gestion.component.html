@@ -1,0 +1,61 @@
+<div class="conteiner">
+  <!-- Otros elementos que quieras añadir aquí -->
+
+  <!-- Botón flotante en la esquina inferior derecha -->
+  <button class="floating-button" data-bs-toggle="modal" data-bs-target="#taskModal">
+    <i class="bi bi-plus"></i> <!-- Icono de Bootstrap -->
+  </button>
+
+  <!-- Modal para añadir una tarea -->
+  <app-task-modal #taskModal (taskCreated)="onTaskCreated($event)"></app-task-modal>
+
+  <div class="task-container mt-4">
+
+    <!-- Sección de prioridad alta -->
+    <div class="d-flex flex-column" style="width: 30%;" [ngClass]="{'drag-over': draggingSection === 'ALTA'}"(dragenter)="onDragEnter('ALTA')"(dragleave)="onDragLeave()"(drop)="onDrop($event, 'ALTA')"(dragover)="allowDrop($event)">
+      <h3>Prioridad Alta</h3>
+      <div *ngIf="getTasksByPriority('alta').length > 0" class="task-section">
+        <div *ngFor="let task of getTasksByPriority('alta')" (click)="openEditModal(task)" class="task-card high-priority"draggable="true"
+        (dragstart)="onDragStart($event, task)">
+          <h5>{{ task.title | truncate:70:false}}</h5>
+          <p>{{ task.description | truncate:70:false}}</p>
+          <small>Vence el: {{ task.dueDate }}</small>
+          <span class="badge bg-light text-dark m-2">{{ task.priority }}</span>
+        </div>
+      </div>
+      <p *ngIf="getTasksByPriority('ALTA').length === 0">No hay tareas de prioridad alta.</p>
+    </div>
+
+    <!-- Sección de prioridad media -->
+    <div class="d-flex flex-column"style="width: 30%;" [ngClass]="{'drag-over': draggingSection === 'MEDIA'}"(dragenter)="onDragEnter('MEDIA')"(dragleave)="onDragLeave()"(drop)="onDrop($event, 'MEDIA')"(dragover)="allowDrop($event)">
+      <h3>Prioridad Media</h3>
+      <div *ngIf="getTasksByPriority('MEDIA').length > 0" class="task-section">
+        <div *ngFor="let task of getTasksByPriority('MEDIA')"(click)="openEditModal(task)" class="task-card medium-priority"draggable="true"
+        (dragstart)="onDragStart($event, task)">
+          <h5>{{ task.title | truncate:70:false}}</h5>
+          <p>{{ task.description | truncate:70:false}}</p>
+          <small>Vence el: {{ task.dueDate }}</small>
+          <span class="badge bg-light text-dark m-2">{{ task.priority }}</span>
+        </div>
+      </div>
+     <p *ngIf="getTasksByPriority('MEDIA').length === 0">No hay tareas de prioridad media.</p>
+    </div>
+
+    <!-- Sección de prioridad baja -->
+    <div class=" d-flex flex-column "style="width: 30%;" [ngClass]="{'drag-over': draggingSection === 'BAJA'}"(dragenter)="onDragEnter('BAJA')"(dragleave)="onDragLeave()"(drop)="onDrop($event, 'BAJA')"(dragover)="allowDrop($event)">
+      <h3>Prioridad Baja</h3>
+      <div *ngIf="getTasksByPriority('BAJA').length > 0" class="task-section">
+        <div *ngFor="let task of getTasksByPriority('BAJA')"(click)="openEditModal(task)" class="task-card low-priority" draggable="true"
+        (dragstart)="onDragStart($event, task)">
+          <h5>{{ task.title | truncate:70:false}}</h5>
+          <p>{{ task.description | truncate:70:false}}</p>
+          <small>Vence el: {{ task.dueDate }}</small>
+          <span class="badge bg-light text-dark m-2">{{ task.priority }}</span>
+        </div>
+      </div>
+      <p *ngIf="getTasksByPriority('BAJA').length === 0">No hay tareas de prioridad baja.</p>
+    </div>
+
+  </div>
+</div>
+

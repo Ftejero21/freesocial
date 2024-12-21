@@ -1,0 +1,8 @@
+
+<i (click)="toggleEmojiPicker()" class="bi bi-emoji-grin botonEmoji" *ngIf="!mostrarEmoticon"></i>
+<i (click)="toggleEmojiPicker()" class="bi bi-emoji-laughing-fill botonEmoji yellow" *ngIf="mostrarEmoticon"></i>
+<div *ngIf="mostrarEmojis" [hidden]="!mostrarEmojis"  class="emojiPicker">
+  <span class="emoji" *ngFor="let emoji of emojis" (click)="agregarEmojiAlMensaje(emoji)">
+    {{emoji}}
+  </span>
+</div>

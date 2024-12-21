@@ -7,6 +7,11 @@ import { API_ENDPOINT } from 'src/app/Utils/Constants';
 import { utils } from 'src/app/Utils/utils';
 import { LoginService } from '../Login/login.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Mensaje } from 'src/app/Interface/Mensaje';
+import { ChatGrupal } from 'src/app/Interface/ChatGrupal';
+import { MensajeEnvioGrupal } from 'src/app/Interface/MensajeEnvioGrupal';
+import { MensajeGrupalDTO } from 'src/app/Interface/MensajeGrupalDTO';
+import { ChatGrupalCreacion } from 'src/app/Interface/ChatGrupalCreacion';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +74,34 @@ export class MensajeriaService {
     return this.httpClient.get<any>(API_ENDPOINT + "mensajeria/getChats", { headers: headers });
   }
 
+  public crearChatGrupal(chatGrupal: ChatGrupalCreacion): Observable<any> {
+    const storedToken = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+    return this.httpClient.post<any>(
+      API_ENDPOINT + "mensajeria/crear-chat-grupal",
+      chatGrupal,
+      { headers: headers }
+    );
+  }
+
+  public obtenerChatsGrupales(): Observable<any> {
+    const storedToken = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+    return this.httpClient.get<any>(API_ENDPOINT + "mensajeria/chats-grupales", { headers: headers });
+  }
+
+  public obtenerMensajesDeChatGrupal(chatGrupalId: number | null): Observable<MensajeGrupalDTO[]> {
+    const storedToken = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+    return this.httpClient.get<MensajeGrupalDTO[]>(`${API_ENDPOINT}mensajeria/mensajes-grupales/${chatGrupalId}`, { headers: headers });
+  }
+
+  public enviarMensajeGrupal(mensajeEnvio: MensajeEnvioGrupal): Observable<any> {
+    const storedToken = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+    return this.httpClient.post<any>(API_ENDPOINT + "mensajeria/enviar-mensaje-grupal", mensajeEnvio, { headers: headers });
+  }
+
   public enviarMensaje(mensaje:MensajeEnvio):Observable<any> {
     const storedToken = this.utils.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
@@ -78,7 +111,28 @@ export class MensajeriaService {
   public MensajeLeido(id?: number):Observable<any> {
     const storedToken = this.utils.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
-    return this.httpClient.post<any>(API_ENDPOINT + "mensajeria/marcarLeido/"+ id, { headers: headers });
+    return this.httpClient.patch<any>(API_ENDPOINT + "mensajeria/marcarLeido/"+ id, { headers: headers });
+  }
+
+  public editarMensaje(mensajeDTO: Mensaje): Observable<Mensaje> {
+    const storedToken = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+    return this.httpClient.put<Mensaje>(API_ENDPOINT + 'mensajeria/editar', mensajeDTO, { headers: headers });
+  }
+  public actualizarReaccion(id: number, reaccion: string): Observable<any> {
+    const storedToken = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`)
+                                      .set('Content-Type', 'text/plain')
+                                      .set('Accept', 'text/plain'); // Asegurarse de aceptar texto plano
+    return this.httpClient.put(`${API_ENDPOINT}mensajeria/${id}/reaccion`, reaccion, { headers, responseType: 'text' });
+  }
+
+  enviarEstadoEscribiendo(chatId: string, escribiendo: boolean) {
+    const url = API_ENDPOINT + "mensajeria/escribiendo";
+    const storedToken = this.utils.getToken();
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${storedToken}`);
+    return this.httpClient.post(url, { chatId, escribiendo }, { headers: headers });
   }
 
   public deleteMensaje(id:number):Observable<String>{
@@ -111,14 +165,12 @@ export class MensajeriaService {
   }
 
   private monitorMensajesNuevos(): void {
-
-
     if (this.mensajesInterval) {
       clearInterval(this.mensajesInterval);
       this.mensajesInterval = null;
-  }
+    }
 
-  this.mensajesInterval = setInterval(() => {
+    this.mensajesInterval = setInterval(() => {
       this.getChats().subscribe(chats => {
         let nuevosMensajesCount = 0;
         chats.forEach((chat:any) => {
@@ -133,7 +185,7 @@ export class MensajeriaService {
           this._mensajeNewCount.next(0); // Resetear si no hay nuevos mensajes
         }
       });
-    }, 3000); // Ajusta el intervalo según sea necesario
+    }, 1000); // Ajusta el intervalo según sea necesario
   }
 
   incrementarContadorMensajes(nuevos: number): void {

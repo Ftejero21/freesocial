@@ -501,6 +501,8 @@ public iniciarProyecto(): void {
       this.UsuarioActualizar.freelancerData?.habilidadesPrincipales?.splice(index, 1);
     }else if(this.experienciaActualizar != null && tipo === 'experiencia'){
       this.experienciaActualizar?.habilidadesPrincipalesExperiencia?.splice(index,1)
+    }else if(this.proyectoActualizar != null && tipo === 'proyecto'){
+      this.proyectoActualizar?.habilidadesPrincipalesProyecto?.splice(index,1)
     }
   }
 
@@ -560,9 +562,9 @@ public iniciarProyecto(): void {
 
   public actualizar(tipo:string){
 
-     if (!FormValidationUtils.validarCampos(this.operacion)) {
+    /* if (!FormValidationUtils.validarCampos(this.operacion)) {
        return;
-      }
+      }*/
 
     if(tipo === "añadirEducacion"){
       this.educacionService.saveEducacion(this.educacion).subscribe((data:any) =>{
